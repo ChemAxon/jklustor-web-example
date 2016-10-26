@@ -54,7 +54,7 @@ After a successful compilation with the `jar` target invoke the following comman
 
 ```` bash
 cat src/data/molecules/vitamins/vitamins.smi | java -classpath build/libs/jklustor-web-example-0.0.1-SNAPSHOT.jar com.chemaxon.clustering.examples.SphexExample
-cat src/data/molecules/drugbank/drugbank-all.sdf.gz | java -classpath build/libs/jklustor-web-example-0.0.1-SNAPSHOT.jar com.chemaxon.clustering.examples.HierarchicClusteringExample
+cat src/data/molecules/vitamins/vitamins.smi | java -classpath build/libs/jklustor-web-example-0.0.1-SNAPSHOT.jar com.chemaxon.clustering.examples.HierarchicClusteringExample
 ````
 
 ### Further steps
