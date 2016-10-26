@@ -1,0 +1,30 @@
+OC/C=C(/C=C/C=C(/C=C/C1=C(/CCCC1(C)C)C)C)C Vitamin A - Retinol
+CC1=C(C(CCC1)(C)C)/C=C/C(=C/C=C/C(=C/C=O)/C)/C Vitamin A - Retinal
+CC2(C)CCCC(\C)=C2\C=C\C(\C)=C\C=C\C(\C)=C\C=C\C=C(/C)\C=C\C=C(/C)\C=C\C1=C(/C)CCCC1(C)C Vitamin A - beta-Carotene
+CC1=C(CCO)SC=[N+]1CC1=CN=C(C)N=C1N Vitamin B1 - Thiamine
+O=C2/N=C\1/N(c3cc(c(cc3/N=C/1C(=O)N2)C)C)C[C@H](O)[C@H](O)[C@H](O)CO Vitamin B2 - Riboflavin
+OC(=O)C1=CN=CC=C1 Vitamin B3 - Niacin
+c1cc(cnc1)C(=O)N Vitamin B3 - Nicotinamide
+CC(C)(CO)C(O)C(=O)NCCC(O)=O Vitamin B5 - Pantothenic acid
+CC1=NC=C(C(=C1O)CO)CO Vitamin B6 - Pyridoxine
+O=Cc1c(cnc(c1O)C)CO Vitamin B6 - Pyridoxal
+O=C1N[C@@H]2[C@@H](SC[C@@H]2N1)CCCCC(=O)O Vitamin B7 - Biotin
+O=C(N[C@H](C(O)=O)CCC(O)=O)C1=CC=C(NCC2=NC(C(NC(N)=N3)=O)=C3N=C2)C=C1 Vitamin B9 - Folic acid
+O=C(O)[C@@H](NC(=O)c1ccc(cc1)NCC3N(/C2=C(/N/C(=N\C2=O)N)NC3)C=O)CCC(=O)O Vitamin B9 - Folinic acid
+CC1=CC2=C(C=C1C)N(C=N2)C3[C@@H]([C@@H]([C@H](O3)CO)OP(=O)([O-])O[C@H](C)CNC(=O)CC[C@@]4([C@H]([C@@H]5[C@]6([C@@]([C@@H](/C(=C(/C7=N/C(=C\C8=N/C(=C(\C4=N5)/C)/[C@H](C8(C)C)CCC(=O)N)/[C@H]([C@]7(C)CC(=O)N)CCC(=O)N)\C)/[N-]6)CCC(=O)N)(C)CC(=O)N)C)CC(=O)N)C)O.[C-]#N.[Co+3] Vitamin B12 - Cyanocobalamin
+CC1=CC2=C(C=C1C)N(C=N2)[C@@H]3[C@@H]([C@@H]([C@H](O3)CO)OP(=O)([O-])O[C@@H](C)CNC(=O)CC[C@@]\4([C@H](C5[C@]6([C@@]([C@@H](C(=N6)/C(=C\7/[C@@]([C@@H](C(=N7)/C=C\8/C([C@@H](C(=N8)/C(=C4\[N-]5)/C)CCC(=O)N)(C)C)CCC(=O)N)(C)CC(=O)N)/C)CCC(=O)N)(C)CC(=O)N)C)CC(=O)N)C)O.O.[Co+2] Vitamin B12 - Hydroxocobalamin
+[CH3-].CC1=CC2=C(C=C1C)N(C=N2)C3C(C(C(O3)CO)OP(=O)([O-])OC(C)CNC(=O)CCC\4(C(C5C6(C(C(C(=N6)/C(=C\7/C(C(C(=N7)/C=C\8/C(C(C(=N8)/C(=C4\[N-]5)/C)CCC(=O)N)(C)C)CCC(=O)N)(C)CC(=O)N)/C)CCC(=O)N)(C)CC(=O)N)C)CC(=O)N)C)O.[Co+3] Vitamin B12 - Methylcobalamin
+C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O Vitamin C - Ascorbic acid
+O[C@@H]1CC(\C(=C)CC1)=C\C=C2/CCC[C@]3([C@H]2CC[C@@H]3[C@H](C)CCCC(C)C)C Vitamin D3 - Cholecalciferol
+O[C@@H]1CC(\C(=C)CC1)=C\C=C2/CCC[C@]3([C@H]2CC[C@@H]3[C@@H](/C=C/[C@H](C)C(C)C)C)C Vitamin D3 - Ergocalciferol
+Oc2c(c(c1O[C@](CCc1c2C)(C)CCC[C@H](C)CCC[C@H](C)CCCC(C)C)C)C Vitamin E - alpha-Tocopherol
+C[C@H](CCC[C@H](C)CCCC(C)C)CCC[C@@]2(C)OC1=C(C)C=C(O)C(C)=C1CC2 Vitamin E - beta-Tocopherol
+C[C@H](CCC[C@H](C)CCCC(C)C)CCC[C@@]2(C)OC1=C(C)C(C)=C(O)C=C1CC2 Vitamin E - gamma-Tocopherol
+Oc2cc(c1O[C@](CCc1c2)(C)CCC[C@H](C)CCC[C@H](C)CCCC(C)C)C Vitamin E - delta-Tocopherol
+CC1=C(C(=C2CC[C@@](OC2=C1C)(C)CC/C=C(\C)/CC/C=C(\C)/CCC=C(C)C)C)O Vitamin E - alpha-Tocotrienol
+CC1=CC(=C(C2=C1OC(CC2)(C)CCC=C(C)CCC=C(C)CCC=C(C)C)C)O Vitamin E - beta-Trocotrienol
+CC1=C(C=C2CC[C@@](OC2=C1C)(C)CC/C=C(\C)/CC/C=C(\C)/CCC=C(C)C)O Vitamin E - gamma-Trocotrienol
+CC1=C2C(=CC(=C1)O)CC[C@@](O2)(C)CC/C=C(\C)/CC/C=C(\C)/CCC=C(C)C Vitamin E - delta-Trocotrienol
+CC1=C(C(=O)c2ccccc2C1=O)C/C=C(\C)/CCC[C@H](C)CCC[C@H](C)CCCC(C)C Vitamin K1 - Phylloquinone
+CC1=C(C(=O)C2=CC=CC=C2C1=O)C/C=C(\C)/CC/C=C(\C)/CC/C=C(\C)/CCC=C(C)C Vitamin K2 - Menatetrenone
+CC1=C(C(=O)C2=CC=CC=C2C1=O)C/C=C(\C)/CC/C=C(\C)/CC/C=C(\C)/CC/C=C(\C)/CC/C=C(\C)/CC/C=C(\C)/CCC=C(C)C Vitamin K2 - Menaquinone-7

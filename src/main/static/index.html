@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+    Copyright 2016 ChemAxon Ltd.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!--
+    The index page gives a list of available resources (molfiles, clusterings).
+    Dynamic data (list of resources) fetched from the server using jQuery ajax
+    requests and displayed with the help of D3.
+-->
+<html>
+    <head>
+        <!-- Manually include libraries -->
+        <link rel="stylesheet" href="lib/bootstrap-3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="lib/bootstrap-3.3.6/css/bootstrap-theme.min.css">
+        <script src="lib/jquery-1.12.4/jquery-1.12.4.min.js"></script>
+        <script src="lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+        <script src="lib/d3-3.5.17/d3.min.js"></script>
+
+        <title>JKlustor web example</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            /**
+             * Retrieve available molfiles.
+             *
+             * @param success Function to invoke with the retrieved DTO
+             */
+            var available_molfiles = function(success) {
+                $.ajax({
+                    url : "rest/molfiles",
+                    success : success
+                });
+            }
+
+            /**
+             * Retrieve available clusterings.
+             *
+             * @param success Function to invoke with the retrieved DTO
+             */
+            var available_clusterings = function(success) {
+                $.ajax({
+                    url : "rest/clusterings",
+                    success : success
+                });
+            };
+
+            var launch_lance_williams = function(params) {
+                if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
+
+                var requestData = {
+                    molfile : params.molfile
+                };
+
+                if (params.algorithm) {
+                    requestData.algorithm = params.algorithm;
+                }
+
+                $.ajax({
+                    url : 'rest/launch-clustering/invoke-lance-williams-on-molfile',
+                    type : 'POST',
+                    data : requestData,
+                    success : function(result, status, xhr) {
+                        params.success(xhr.responseJSON);
+                    }
+                });
+            };
+
+            /**
+             * Initialize dynamic content.
+             */
+            $(function() {
+                // Fill molecules table
+                available_molfiles(function(m) {
+                    console.log(m);
+
+                    var mtable = d3.select('#available-molfiles');
+                    var thead = mtable.append('thead').append('tr');
+                    thead.append('th').text('ID');
+                    thead.append('th').text('Original file name');
+                    thead.append('th').text('Original file size');
+                    thead.append('th').text('URL');
+                    thead.append('th').text('Cluster!');
+
+                    var trows = mtable.append('tbody').selectAll('tr').data(m.molfiles).enter().append('tr');
+                    trows.append('td').text(function(d) { return d.id; });
+                    trows.append('td').text(function(d) { return d.originalFileName; });
+                    trows.append('td').text(function(d) { return d.originalFileSize; });
+                    trows.append('td').text(function(d) { return d.url; });
+                    trows.append('td').append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Cluster!")
+                            .on('click', function(d) {
+                                launch_lance_williams({
+                                    molfile : d.id,
+                                    success : function (f) { console.log(f); }
+                                });
+                            });
+
+                });
+                available_clusterings(function(c) {
+                    console.log(c);
+
+                    var ctable = d3.select('#available-clusterings');
+                    var thead = ctable.append('thead').append('tr');
+                    thead.append('th').text('ID');
+                    thead.append('th').text('URL');
+
+                    var trows = ctable.append('tbody').selectAll('tr').data(c.clusterings).enter().append('tr');
+                    trows.append('td').text(function(d) { return d.id; });
+                    trows.append('td').text(function(d) { return d.url; });
+
+                });
+            });
+
+        </script>
+
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1>JKlustor web example</h1>
+            <p>This is an example project on using JKlustor Java API in a web environment.</p>
+
+            <table id="available-molfiles" class="table">
+                <caption>Available molfiles</caption>
+            </table>
+
+            <table id="available-clusterings" class="table">
+                <caption>Available clusterings</caption>
+            </table>
+
+        </div>
+    </body>
+</html>
