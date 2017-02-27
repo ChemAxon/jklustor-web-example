@@ -91,6 +91,16 @@
                 });
             }
 
+            var delete_clustering = function(params) {
+                if (!params.clustering) { throw new Error('Parameter clustering not specified.'); }
+
+                $.ajax({
+                    url : 'rest/clusterings/' + params.clustering,
+                    type : 'DELETE'
+                });
+            }
+
+
             /**
              * Initialize dynamic content.
              */
@@ -143,12 +153,21 @@
                     thead.append('th').text('URL');
                     thead.append('th').text('Algorithm');
                     thead.append('th').text('Time (ms)');
+                    thead.append('th').text('Other');
 
                     var trows = ctable.append('tbody').selectAll('tr').data(c.clusterings).enter().append('tr');
                     trows.append('td').text(function(d) { return d.id; });
                     trows.append('td').text(function(d) { return d.url; });
                     trows.append('td').text(function(d) { return d.algorithmDescription; });
                     trows.append('td').text(function(d) { return d.elapsedTime; });
+                    trows.append('td').append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Delete!")
+                            .on('click', function(d) {
+                                delete_clustering({
+                                    clustering : d.id
+                                });
+                            });
 
                 });
             });
