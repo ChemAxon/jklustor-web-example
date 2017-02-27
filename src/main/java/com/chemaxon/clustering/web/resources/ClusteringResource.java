@@ -18,6 +18,7 @@ package com.chemaxon.clustering.web.resources;
 
 import com.chemaxon.clustering.web.dto.ClusteringInfo;
 import com.chemaxon.clustering.web.dto.ClusteringsInfo;
+import com.chemaxon.clustering.web.dto.Deleted;
 import com.chemaxon.clustering.web.dto.HierarchicClustering;
 import com.chemaxon.clustering.web.entities.Clustering;
 import com.chemaxon.clustering.web.services.ClusteringService;
@@ -124,11 +125,11 @@ public class ClusteringResource {
     @DELETE
     @Path("{clustering}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteClustering(
+    public Deleted deleteClustering(
         @PathParam("clustering") Clustering clustering
     ) {
         this.clusteringService.deleteClustering(clustering);
-        return "";
+        return new Deleted();
     }
 
 

@@ -20,6 +20,7 @@ package com.chemaxon.clustering.web.resources;
 import chemaxon.formats.MolExporter;
 import chemaxon.struc.Molecule;
 import com.chemaxon.clustering.web.application.Status;
+import com.chemaxon.clustering.web.dto.Deleted;
 import com.chemaxon.clustering.web.dto.MolfileInfo;
 import com.chemaxon.clustering.web.dto.MolfilesInfo;
 import com.chemaxon.clustering.web.entities.Molfile;
@@ -142,11 +143,11 @@ public class MolfilesResource {
     @DELETE
     @Path("{molfile}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteMolfile(
+    public Deleted deleteMolfile(
             @PathParam("molfile") Molfile molfile
     ) {
         this.molfilesService.deleteMolfile(molfile);
-        return "";
+        return new Deleted();
     }
 
 

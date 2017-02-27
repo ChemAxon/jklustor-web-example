@@ -84,19 +84,27 @@
 
             var delete_molfile = function(params) {
                 if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
 
                 $.ajax({
                     url : 'rest/molfiles/' + params.molfile,
-                    type : 'DELETE'
+                    type : 'DELETE',
+                    success : function(result, status, xhr) {
+                        params.success();
+                    }
                 });
             }
 
             var delete_clustering = function(params) {
                 if (!params.clustering) { throw new Error('Parameter clustering not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
 
                 $.ajax({
                     url : 'rest/clusterings/' + params.clustering,
-                    type : 'DELETE'
+                    type : 'DELETE',
+                    success : function(result, status, xhr) {
+                        params.success();
+                    }
                 });
             }
 
@@ -142,7 +150,7 @@
                             .on('click', function(d) {
                                 launch_lance_williams({
                                     molfile : d.id,
-                                    success : function (f) { console.log(f); }
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
                                 });
                             });
                     trows.append('td').append('button')
@@ -150,7 +158,8 @@
                             .text("Delete!")
                             .on('click', function(d) {
                                 delete_molfile({
-                                    molfile : d.id
+                                    molfile : d.id,
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
                                 });
                             });
 
@@ -176,7 +185,8 @@
                             .text("Delete!")
                             .on('click', function(d) {
                                 delete_clustering({
-                                    clustering : d.id
+                                    clustering : d.id,
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
                                 });
                             });
 
