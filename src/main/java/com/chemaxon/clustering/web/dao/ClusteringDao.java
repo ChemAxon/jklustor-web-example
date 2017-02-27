@@ -94,6 +94,20 @@ public class ClusteringDao {
 
 
     /**
+     * Delete a stored instance.
+     *
+     * @param clustering Instance previously added with {@link #add(java.lang.String, com.chemaxon.clustering.Clustering)}
+     * @throws NoSuchElementException when instance not found
+     */
+    public synchronized void delete(Clustering clustering) {
+        if (!this.storage.inverse().containsKey(clustering)) {
+            throw new NoSuchElementException("Item not found: " + clustering);
+        }
+        this.storage.inverse().remove(clustering);
+    }
+
+
+    /**
      * Retrieve all stored instances.
      *
      * @return All stored instances, keyed by ID

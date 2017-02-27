@@ -24,6 +24,7 @@ import com.chemaxon.clustering.web.services.ClusteringService;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -113,5 +114,22 @@ public class ClusteringResource {
         ret.elapsedTime = clustering.getElapsedTime();
         return ret;
     }
+
+    /**
+     * Delete a clustering.
+     *
+     * @param clustering Clustering to delete
+     * @return Should be ignored
+     */
+    @DELETE
+    @Path("{clustering}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteClustering(
+        @PathParam("clustering") Clustering clustering
+    ) {
+        this.clusteringService.deleteClustering(clustering);
+        return "";
+    }
+
 
 }

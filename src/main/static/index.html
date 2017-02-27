@@ -82,6 +82,15 @@
                 });
             };
 
+            var delete_molfile = function(params) {
+                if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
+
+                $.ajax({
+                    url : 'rest/molfiles/' + params.molfile,
+                    type : 'DELETE'
+                });
+            }
+
             /**
              * Initialize dynamic content.
              */
@@ -98,6 +107,7 @@
                     thead.append('th').text('Original file size');
                     thead.append('th').text('URL');
                     thead.append('th').text('Cluster!');
+                    thead.append('th').text('Other');
 
                     var trows = mtable.append('tbody').selectAll('tr').data(m.molfiles).enter().append('tr');
                     trows.append('td').text(function(d) { return d.id; });
@@ -112,6 +122,14 @@
                                 launch_lance_williams({
                                     molfile : d.id,
                                     success : function (f) { console.log(f); }
+                                });
+                            });
+                    trows.append('td').append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Delete!")
+                            .on('click', function(d) {
+                                delete_molfile({
+                                    molfile : d.id
                                 });
                             });
 

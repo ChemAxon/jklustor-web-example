@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -130,6 +131,22 @@ public class MolfilesResource {
         ret.url = "/rest/molfiles/" + id;
 
         return ret;
+    }
+
+    /**
+     * Delete a molfile.
+     *
+     * @param molfile Molfile to delete.
+     * @return Should be ignored
+     */
+    @DELETE
+    @Path("{molfile}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteMolfile(
+            @PathParam("molfile") Molfile molfile
+    ) {
+        this.molfilesService.deleteMolfile(molfile);
+        return "";
     }
 
 

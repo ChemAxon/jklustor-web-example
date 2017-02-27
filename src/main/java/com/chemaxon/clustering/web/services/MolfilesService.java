@@ -88,4 +88,14 @@ public class MolfilesService {
         return this.molfilesDao.getIdOf(molfile);
     }
 
+
+    /**
+     * Delete an existing molfile.
+     *
+     * @param molfile Instance
+     */
+    public void deleteMolfile(Molfile molfile) {
+        this.molfilesDao.delete(molfile);
+    }
+
 }

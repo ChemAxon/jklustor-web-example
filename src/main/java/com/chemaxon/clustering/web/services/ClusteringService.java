@@ -105,6 +105,8 @@ public class ClusteringService {
         return this.clusteringDao.getAll();
     }
 
+
+
     /**
      * Retrieve Clustering ID.
      *
@@ -114,6 +116,15 @@ public class ClusteringService {
      */
     public String getClusteringId(Clustering clustering) {
         return this.clusteringDao.getIdOf(clustering);
+    }
+
+    /**
+     * Delete an existing clustering.
+     *
+     * @param clustering Instance
+     */
+    public void deleteClustering(Clustering clustering) {
+        this.clusteringDao.delete(clustering);
     }
 
 }

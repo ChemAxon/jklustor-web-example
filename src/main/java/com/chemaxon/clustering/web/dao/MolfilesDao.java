@@ -97,6 +97,20 @@ public class MolfilesDao {
 
 
     /**
+     * Delete a stored instance.
+     *
+     * @param molfile Instance previously added with {@link #add(java.lang.String, com.chemaxon.clustering.Molfile)}
+     * @throws NoSuchElementException when instance not found
+     */
+    public synchronized void delete(Molfile molfile) {
+        if (!this.storage.inverse().containsKey(molfile)) {
+            throw new NoSuchElementException("Item not found: " + molfile);
+        }
+        this.storage.inverse().remove(molfile);
+    }
+
+
+    /**
      * Retrieve all stored instances.
      *
      * @return All stored instances, keyed by ID
