@@ -1,0 +1,7 @@
+<!-- Definitions of command line launcher scripts to be generated using "gradlew createScripts" -->
+<scripts>
+    <script basename="bemisMurcko" mainclass="com.chemaxon.clustering.cli.BemisMurckoCli"/>
+    <script basename="layoutTour" mainclass="com.chemaxon.clustering.cli.LayoutTourCli"/>
+    <script basename="sphexExample" mainclass="com.chemaxon.clustering.examples.SphexExample"/>
+    <script basename="hierarchicClusteringExample" mainclass="com.chemaxon.clustering.examples.HierarchicClusteringExample"/>
+</scripts>

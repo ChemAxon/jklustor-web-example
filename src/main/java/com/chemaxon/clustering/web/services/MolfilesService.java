@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 
 package com.chemaxon.clustering.web.services;
 
-import com.chemaxon.clustering.web.entities.Molfile;
 import com.chemaxon.clustering.web.dao.MolfilesDao;
+import com.chemaxon.clustering.web.entities.Molfile;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Map;

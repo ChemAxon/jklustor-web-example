@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-    Copyright 2016 ChemAxon Ltd.
+    Copyright 2017 ChemAxon Ltd.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
     The index page gives a list of available resources (molfiles, clusterings).
     Dynamic data (list of resources) fetched from the server using jQuery ajax
     requests and displayed with the help of D3.
+
+    author: Gabor Imre
 -->
 <html>
     <head>
@@ -91,6 +93,7 @@
                     var mtable = d3.select('#available-molfiles');
                     var thead = mtable.append('thead').append('tr');
                     thead.append('th').text('ID');
+                    thead.append('th').text('Molecule count');
                     thead.append('th').text('Original file name');
                     thead.append('th').text('Original file size');
                     thead.append('th').text('URL');
@@ -98,6 +101,7 @@
 
                     var trows = mtable.append('tbody').selectAll('tr').data(m.molfiles).enter().append('tr');
                     trows.append('td').text(function(d) { return d.id; });
+                    trows.append('td').text(function(d) { return d.moleculeCount; });
                     trows.append('td').text(function(d) { return d.originalFileName; });
                     trows.append('td').text(function(d) { return d.originalFileSize; });
                     trows.append('td').text(function(d) { return d.url; });
@@ -119,10 +123,14 @@
                     var thead = ctable.append('thead').append('tr');
                     thead.append('th').text('ID');
                     thead.append('th').text('URL');
+                    thead.append('th').text('Algorithm');
+                    thead.append('th').text('Time (ms)');
 
                     var trows = ctable.append('tbody').selectAll('tr').data(c.clusterings).enter().append('tr');
                     trows.append('td').text(function(d) { return d.id; });
                     trows.append('td').text(function(d) { return d.url; });
+                    trows.append('td').text(function(d) { return d.algorithmDescription; });
+                    trows.append('td').text(function(d) { return d.elapsedTime; });
 
                 });
             });

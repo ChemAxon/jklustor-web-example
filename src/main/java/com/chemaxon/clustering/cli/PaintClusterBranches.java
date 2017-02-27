@@ -14,28 +14,28 @@
  * limitations under the License.
  *
  */
-package com.chemaxon.clustering.web.dto;
+package com.chemaxon.clustering.cli;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import com.chemaxon.overlap.cli.util.images.Px2d;
+import com.chemaxon.overlap.cli.util.images.Renderer;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Info of available molfiles.
+ * Paint tree branches between a cluster and its descendants.
  *
  * @author Gabor Imre
  */
-@XmlRootElement
-@SuppressFBWarnings(
-    value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
-    justification = "Fields of this DTO is read by JSON serialization."
-)
-public class MolfilesInfo {
+@FunctionalInterface
+public interface PaintClusterBranches {
 
     /**
-     * List of available molfiles.
+     * Paint.
+     *
+     * @param startpoint Start point of branches. For level aware dendrograms the vertical bar depicting the cluster is
+     * expected to be rendered at this location
+     * @param endpoints End points of branches
+     * @param renderer Renderer
      */
-    @XmlElement(required = true)
-    public List<MolfileInfo> molfiles;
+    void paint(Px2d startpoint, List<Px2d> endpoints, Renderer renderer);
+
 }

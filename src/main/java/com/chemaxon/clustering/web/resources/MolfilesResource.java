@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package com.chemaxon.clustering.web.resources;
 
 import chemaxon.formats.MolExporter;
 import chemaxon.struc.Molecule;
-import com.chemaxon.clustering.web.entities.Molfile;
-import com.chemaxon.clustering.web.services.MolfilesService;
 import com.chemaxon.clustering.web.application.Status;
 import com.chemaxon.clustering.web.dto.MolfileInfo;
 import com.chemaxon.clustering.web.dto.MolfilesInfo;
+import com.chemaxon.clustering.web.entities.Molfile;
+import com.chemaxon.clustering.web.services.MolfilesService;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -124,6 +124,7 @@ public class MolfilesResource {
         final MolfileInfo ret = new MolfileInfo();
         ret.originalFileName = molfile.getOriginalFilename().or("");
         ret.originalFileSize = molfile.getFileSizeInBytes();
+        ret.moleculeCount = molfile.size();
 
         ret.id = id;
         ret.url = "/rest/molfiles/" + id;

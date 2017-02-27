@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.chemaxon.clustering.web.dto;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,6 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Gabor Imre
  */
 @XmlRootElement
+@SuppressFBWarnings(
+    value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
+    justification = "Fields of this DTO is read by JSON serialization."
+)
 public class ClusteringInfo {
 
     /**
@@ -39,4 +44,16 @@ public class ClusteringInfo {
      */
     @XmlElement(required = true)
     public String url;
+
+    /**
+     * Elapsed time of the clustering in ms.
+     */
+    @XmlElement(required = true)
+    public long elapsedTime;
+
+    /**
+     * Represented algorithm human readable description.
+     */
+    @XmlElement(required = true)
+    public String algorithmDescription;
 }

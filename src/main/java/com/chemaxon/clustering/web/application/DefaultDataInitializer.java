@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,21 +43,29 @@ public class DefaultDataInitializer implements ApplicationListener<ContextRefres
     @Value("classpath:/vitamins.smi")
     private Resource vitamins;
 
+    @Value("classpath:/antibiotics.smi")
+    private Resource antibiotics;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    @Value("classpath:/who-essential-medicines.smi")
+    private Resource whoEssentialMedicines;
 
+    private void addMolfileFromResource(Resource resource, String originalFileName) {
         try {
-            final InputStream is = vitamins.getInputStream();
-            try {
+            try (InputStream is = resource.getInputStream()) {
                 final byte [] data = IOUtils.toByteArray(is);
-                this.molfilesService.addMolfile("vitamins.smi", data);
-            } finally {
-                is.close();
+                this.molfilesService.addMolfile(originalFileName, data);
             }
         }  catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        addMolfileFromResource(vitamins, "vitamins.smi");
+        addMolfileFromResource(antibiotics, "antibiotics.smi");
+        addMolfileFromResource(whoEssentialMedicines, "who-essential-medicines.smi");
     }
 
 }

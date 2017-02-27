@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
  */
 package com.chemaxon.clustering.web.resources;
 
-import com.chemaxon.clustering.web.entities.Clustering;
-import com.chemaxon.clustering.web.services.ClusteringService;
 import com.chemaxon.clustering.web.dto.ClusteringInfo;
 import com.chemaxon.clustering.web.dto.ClusteringsInfo;
 import com.chemaxon.clustering.web.dto.HierarchicClustering;
+import com.chemaxon.clustering.web.entities.Clustering;
+import com.chemaxon.clustering.web.services.ClusteringService;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -109,6 +109,8 @@ public class ClusteringResource {
         final ClusteringInfo ret = new ClusteringInfo();
         ret.id = id;
         ret.url = "/rest/clusterings/" + ret.id;
+        ret.algorithmDescription = clustering.getAlgorithmDescription();
+        ret.elapsedTime = clustering.getElapsedTime();
         return ret;
     }
 

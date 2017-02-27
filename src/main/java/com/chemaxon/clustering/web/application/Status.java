@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import javax.ws.rs.NameBinding;
 /**
  *
  * See http://stackoverflow.com/questions/4687271/jax-rs-how-to-return-json-and-http-status-code-together for source
- * 
+ *
  * @author Gabor Imre
  */
 @NameBinding

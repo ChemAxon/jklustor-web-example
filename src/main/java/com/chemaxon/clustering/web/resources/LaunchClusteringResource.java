@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
  */
 package com.chemaxon.clustering.web.resources;
 
-import com.chemaxon.clustering.web.entities.Clustering;
-import com.chemaxon.clustering.web.services.ClusteringService;
-import com.chemaxon.clustering.web.entities.Molfile;
-import com.chemaxon.clustering.web.services.MolfilesService;
 import com.chemaxon.clustering.web.dto.ClusteringInfo;
+import com.chemaxon.clustering.web.entities.Clustering;
+import com.chemaxon.clustering.web.entities.Molfile;
+import com.chemaxon.clustering.web.services.ClusteringService;
+import com.chemaxon.clustering.web.services.MolfilesService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;

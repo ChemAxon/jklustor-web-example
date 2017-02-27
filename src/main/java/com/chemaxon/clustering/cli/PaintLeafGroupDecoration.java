@@ -14,12 +14,28 @@
  * limitations under the License.
  *
  */
+package com.chemaxon.clustering.cli;
+
+import com.chemaxon.overlap.cli.util.images.Area;
+import com.chemaxon.overlap.cli.util.images.Px2d;
+import com.chemaxon.overlap.cli.util.images.Renderer;
+import java.util.List;
 
 /**
- * DTOs used by the REST resource layer.
- *
- * The DTOs are typically serialized to/from JSON.
+ * Paint a decoration of a query group before painting queries.
  *
  * @author Gabor Imre
  */
-package com.chemaxon.clustering.web.dto;
+@FunctionalInterface
+public interface PaintLeafGroupDecoration {
+
+    /**
+     * Paint.
+     *
+     * @param renderer Renderer to paint to
+     * @param area Area of the leaves to be painted later
+     * @param branchEnds List of branch endpoints to be filled
+     */
+    void paint(Renderer renderer, Area area, List<Px2d> branchEnds);
+
+}

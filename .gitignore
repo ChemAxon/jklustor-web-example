@@ -1,7 +1,15 @@
+/*.iml
+/*.log
+/.apt_generated
 /.classpath
-/.settings
+/.factorypath
 /.gradle
 /.idea
 /.nb-gradle
 /.project
+/.settings
+/bin
 /build
+output.txt
+**/.vagrant/
+**/license.cxl

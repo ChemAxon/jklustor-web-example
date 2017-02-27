@@ -14,12 +14,26 @@
  * limitations under the License.
  *
  */
+package com.chemaxon.clustering.cli;
+
+import com.chemaxon.overlap.cli.util.images.Area;
+import com.chemaxon.overlap.cli.util.images.Renderer;
 
 /**
- * DTOs used by the REST resource layer.
- *
- * The DTOs are typically serialized to/from JSON.
+ * Paint a single lead representation image to an area.
  *
  * @author Gabor Imre
  */
-package com.chemaxon.clustering.web.dto;
+@FunctionalInterface
+public interface PaintLeafImage {
+
+    /**
+     * Paint.
+     *
+     * @param leafId Leaf ID to represent
+     * @param renderer Renderer to paint to
+     * @param area Allocated area
+     */
+    void paint(int leafId, Renderer renderer, Area area);
+
+}

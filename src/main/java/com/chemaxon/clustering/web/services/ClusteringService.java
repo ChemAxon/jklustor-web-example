@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import com.chemaxon.clustering.common.IDBasedHierarchicClustering;
 import com.chemaxon.clustering.common.MolInputBuilder;
 import com.chemaxon.clustering.wards.LanceWilliamsAlgorithm;
 import com.chemaxon.clustering.wards.LanceWilliamsMerge;
-import com.chemaxon.clustering.web.entities.Clustering;
 import com.chemaxon.clustering.web.dao.ClusteringDao;
+import com.chemaxon.clustering.web.entities.Clustering;
 import com.chemaxon.clustering.web.entities.Molfile;
 import com.chemaxon.descriptors.fingerprints.cfp.CfpComparator;
 import com.chemaxon.descriptors.fingerprints.cfp.CfpGenerator;

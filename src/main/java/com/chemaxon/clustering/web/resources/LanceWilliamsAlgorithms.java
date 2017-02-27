@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ChemAxon Ltd.
+ * Copyright 2017 ChemAxon Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.chemaxon.clustering.wards.LanceWilliamsMerges;
  * Applicable clustering algorithms.
  *
  * Declared constants are directly used by the REST API resource implementation as query parameters.
- * 
+ *
  * @author Gabor Imre
  */
 public enum LanceWilliamsAlgorithms {
