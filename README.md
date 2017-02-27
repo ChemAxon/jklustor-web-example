@@ -15,6 +15,12 @@ This is a usage example for ChemAxon JKlustor API for a web service environment.
 users of ChemAxon JKlustor API. Simple API usage example is also provided.
 
 
+Further docs
+------------
+
+ - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
+ 
+
 Summary
 -------
 

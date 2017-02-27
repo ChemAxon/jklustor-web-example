@@ -105,6 +105,17 @@
              * Initialize dynamic content.
              */
             $(function() {
+                // Bind UI
+                $('#shutdownButton').click(function() {
+                    $.ajax({
+                        url : '/shutdown',
+                        type : 'POST'
+                    });
+                    alert('Server shutdown request sent.');
+                    // See http://stackoverflow.com/questions/4241397/remove-all-content-using-pure-js
+                    window.location = 'about:blank';
+                });
+                
                 // Fill molecules table
                 available_molfiles(function(m) {
                     console.log(m);
@@ -177,8 +188,18 @@
 
     </head>
     <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">JKlustor web example</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" id="shutdownButton"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Shutdown server</a></li>
+                </ul>
+            </div>
+        </nav>
+        
         <div class="container-fluid">
-            <h1>JKlustor web example</h1>
             <p>This is an example project on using JKlustor Java API in a web environment.</p>
 
             <table id="available-molfiles" class="table">
