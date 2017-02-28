@@ -40,6 +40,18 @@
                 font-size: 11px;
                 line-height: 1;
             }
+
+
+            // See http://stackoverflow.com/questions/9899676/twitter-bootstrap-scrollable-modal
+            .modal-dialog{
+                overflow-y: initial !important;
+                overflow-x: initial !important;
+            }
+            .modal-body{
+                max-height: calc(100vh - 200px);
+                overflow-y: auto;
+                overflow-x: auto;
+            }
         </style>
         <script>
             /**
