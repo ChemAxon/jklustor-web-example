@@ -27,9 +27,11 @@
         <!-- Manually include libraries -->
         <link rel="stylesheet" href="lib/bootstrap-3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="lib/bootstrap-3.3.6/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="lib/highlight-9.7.0/styles/idea-mod.css">
         <script src="lib/jquery-1.12.4/jquery-1.12.4.min.js"></script>
         <script src="lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
         <script src="lib/d3-3.5.17/d3.min.js"></script>
+        <script src="lib/highlight-9.7.0/highlight.pack.js"></script>
 
         <title>JKlustor web example</title>
         <meta charset="UTF-8">
@@ -149,6 +151,9 @@
                 $("#jsdisplay-dialog .modal-title").text(params && params.title ? params.title : "JSON");
                 $("#jsdisplay-dialog-info-p").text(params && params.info ? params.info : "No further info available");
                 $("#jsdisplay-dialog-content").text(params && params.json ? JSON.stringify(params.json, null, 2) : "No content available");
+
+                hljs.highlightBlock($("#jsdisplay-dialog-content")[0]);
+
                 $("#jsdisplay-dialog").modal();
             };
 
