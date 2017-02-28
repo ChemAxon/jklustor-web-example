@@ -63,8 +63,12 @@ public class ClusteringService {
         final long timeStart = System.currentTimeMillis();
 
         // Acquire descriptor generator and comparator (fingerprint and metric) to be used
-        // Use cfp7
-        final CfpGenerator gen = CfpParameters.createNewBuilder().bitsPerPattern(1024).bondCount(7).build().getDescriptorGenerator();
+        // Use cfp7-1
+        final CfpGenerator gen = CfpParameters.createNewBuilder()
+                .length(1024)
+                .bitsPerPattern(1).
+                bondCount(7)
+                .build().getDescriptorGenerator();
         // With tanimoto
         final CfpComparator cmp = gen.forBinaryMetrics(BinaryMetrics.BINARY_TANIMOTO);
 

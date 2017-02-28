@@ -90,7 +90,7 @@ public class HierarchicClustering {
      * @param assigner Level assigner
      */
     public void setClustering(IDBasedHierarchicClustering clustering, IDBasedAssigner assigner) {
-        final ImmutableList.Builder<HierarchicCluster> rb = new ImmutableList.Builder<HierarchicCluster>();
+        final ImmutableList.Builder<HierarchicCluster> rb = new ImmutableList.Builder<>();
         for (IDBasedHierarchicCluster c : clustering.roots()) {
             rb.add(new HierarchicCluster(c, assigner));
         }
