@@ -103,13 +103,13 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
 
     repositories {
         maven {
-            url "${cxnHubContextUrl}/gluon-libs-sandbox"
+            url "${cxnHubContextUrl}/libs-release"
             credentials {
                 username "${cxnHubUser}"
                 password "${cxnHubPass}"
             }
         }
-        mavenCentral()
+        // mavenCentral()
     }
 } else {
     // Using Gluon based CXN dependency version management, currently intended for ChemAxon internal use only.

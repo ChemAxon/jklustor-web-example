@@ -28,3 +28,4 @@ Create and launch VM
  - In the shell (on the VM) invoke `./gradlew -PcxnHubUser=<USER> -PcxnHubPass=<PASSWORD> bootRun`
  - After startup open a web browser (on the host) and connect to <http://localhost:8090>. Note that
    port 8090 of the VM is forwarded from port 8090 of the host (specified in `Vagrantfile`).
+ - To reinitialize the VM use `vagrant destroy && vagrant up`

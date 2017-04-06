@@ -2,10 +2,10 @@ JKlustor web example
 ====================
 
 
-**IMPORTANT: ChemAxon public repository (repository.chemaxon.com) used by previous versions is changed. The new
-repository (hub.chemaxon.com) is under construction. Please contact us at
+**IMPORTANT: ChemAxon public repository (repository.chemaxon.com) used by previous versions is changed. Please ensure
+that you have access to the new repository (hub.chemaxon.com). Contact us at
 [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
-with access requests and further questions.**
+with further questions.**
 
 **This code is under construction. Please note that the web example is not complete. Please note that these example
 codes might use beta or non-public APIs.**
@@ -19,7 +19,7 @@ Further docs
 ------------
 
  - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
- 
+ - [Getting started with <https://hub.chemaxon.com>](src/doc/cxn-hub-getting-started.md)
 
 Summary
 -------
@@ -42,6 +42,7 @@ you need to request access to ChemAxon public repository <https://hub.chemaxon.c
 build script using Gradle properties. Descriptions below use the command line argument (`-P<key>=<value>`) approach.
 Further ways to set project properties are described in <http://mrhaki.blogspot.hu/2010/09/gradle-goodness-different-ways-to-set.html>.
 
+See <https://docs.chemaxon.com/display/docs/Public+Repository> and <src/doc/cxn-hub-getting-started.md> for details.
 
 ### Installing license
 
@@ -55,6 +56,7 @@ Further ways to set project properties are described in <http://mrhaki.blogspot.
     <https://hub.chemaxon.com>. We expect further major changes in the repository configuration in the near future.**
   - **Manual download and usage of JChem distribution is not supported now.**
   - Make sure that you have the required credentials to access ChemAxon public repository <https://hub.chemaxon.com>
+    described above
   - For low memory machines use `export GRADLE_OPTS=-Xmx1768m`
   - Launch `./gradlew -PcxnHubUser=<USERNAME> -PcxnHubPass=<PASSWORD> bootRun` to start embedded server.
   - Launch `./gradlew -PcxnHubUser=<USERNAME> -PcxnHubPass=<PASSWORD> jar` to compile API examples.
