@@ -109,7 +109,9 @@ Use the acquired API key for compilation
 ----------------------------------------
 
 Use your email associated with your Pass account as `cxnHubUser` and the Hub API key acquired as the `cxnHubPass`. For
-compilation you will need Java 1.8 installed. Please note that a Vagrant configuration is also provided which sets up
+compilation you will need Java 1.8 installed. 
+
+Please note that a Vagrant configuration is also provided which sets up
 an Ubuntu based box with Java and ChemAxon licenses installed. For details see document 
 [Compilation using fresh virtual machine](../vagrant/compile-using-fresh-vm.md).
 
