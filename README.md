@@ -2,14 +2,13 @@ JKlustor web example
 ====================
 
 
-**IMPORTANT: ChemAxon public repository (repository.chemaxon.com) used by previous versions is changed. Please ensure
-that you have access to the new repository (hub.chemaxon.com). Contact us at
-[disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
-with further questions.**
+**IMPORTANT:** ChemAxon public repository (repository.chemaxon.com) used by previous versions is changed. Please 
+[ensure](src/doc/cxn-hub-getting-started.md) that you have access to the new repository (hub.chemaxon.com). Contact us
+at [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
+with further questions.
 
 **This code is under construction. Please note that the web example is not complete. Please note that these example
 codes might use beta or non-public APIs.**
-
 
 This is a usage example for ChemAxon JKlustor API for a web service environment. This project is intended for active API
 users of ChemAxon JKlustor API. Simple API usage example is also provided.
@@ -19,8 +18,9 @@ Further docs
 ------------
 
  - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
- - [Getting started with `https://hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md)
+ - [Getting started with `hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md)
 
+ 
 Summary
 -------
 
