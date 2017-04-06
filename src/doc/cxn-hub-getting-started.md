@@ -1,12 +1,23 @@
 Getting started with <https://hub.chemaxon.com/>
 ================================================
 
-This is a step-by-step guide to use ChemAxons public Maven repository <https://hub.chemaxon.com/> to compile
-[JKlustor Web Examples](https://github.com/ChemAxon/jklustor-web-example) open source API example project.
-Please note that you will need a license file for most functionalities, to request a free evaluation please
+This is a step-by-step guide on using ChemAxon public Maven repository <https://hub.chemaxon.com/> to compile
+[JKlustor Web Examples](https://github.com/ChemAxon/jklustor-web-example) open source API example project. This guide
+is based on document <https://docs.chemaxon.com/display/docs/Public+Repository>.
+Please note that you will need a license file for most functionalities. To request a free evaluation license please
 contact us at [sales@chemaxon.com](mailto:sales@chemaxon.com).
 
+Overview
+--------
 
+ - Register a ChemAxon Pass user. The email associated with the pass registration is used as the `username` credential
+   during build.
+ - Use the ChemAxon Pass account to log in `hub.chemaxon.com` and generate an API key. The generated API key is used as
+   the `password` credential during build.
+ - Clone the [jklustor-web-example](https://github.com/ChemAxon/jklustor-web-example) project from GitHub, set up
+   ChemAxon license, and invoke build with the credentials acquired.
+
+   
 Register a ChemAxon Pass user
 -----------------------------
 
@@ -39,6 +50,8 @@ the API key which will be required to access the repository.
 Ensure that your ChemAxon license file is installed
 ---------------------------------------------------
 
+To request a free evaluation license please contact us at [sales@chemaxon.com](mailto:sales@chemaxon.com).
+
 ```` bash
 mkdir -p ~/.chemaxon/
 cp license.cxl ~/.chemaxon/
@@ -57,7 +70,10 @@ cd jklustor-web-examples
 Use the acquired API key for compilation
 ----------------------------------------
 
-Use your email associated with your Pass account as `cxnHubUser` and the Hub API key acquired as the `cxnHubPass`:
+Use your email associated with your Pass account as `cxnHubUser` and the Hub API key acquired as the `cxnHubPass`. For
+compilation you will need Java 1.8 installed. Please note that a Vagrant configuration is also provided which sets up
+an Ubuntu based box with Java and ChemAxon licenses installed. For details see document 
+[Compilation using fresh virtual machine](../vagrant/compile-using-fresh-vm.md).
 
 ```` bash
 ./gradlew -PcxnHubUser=<YOUR PASS EMAIL> -PcxnHubPass=<YOUR HUB API KEY> bootRun
