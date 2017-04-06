@@ -50,15 +50,17 @@ which is available from ChemAxon home page <https://www.chemaxon.com>.
 Get an API key for <https://hub.chemaxon.com>
 ---------------------------------------------
 
-Visit <https://hub.chemaxon.com>, select **Or sign in with: CAS** and sign in with your ChemAxon Pass credentials. After
+Visit <https://hub.chemaxon.com>, select **"Or sign in with: CAS"** and sign in with your ChemAxon Pass credentials. After
 logging in click on your user name (at the top-right) part of the page and click to generate an API key. You can reveal
-the API key which will be required to access the repository.
+and copy the API key which will be required to access the repository.
 
- - On <https://hub.chemaxon.com> select **Or sign in with: CAS**:
+ - On <https://hub.chemaxon.com> select **"Or sign in with: CAS"**. Do not enter any "Username" or "Password" on this
+   page:
  
    ![Choose sign in with CAS](img/hub-110-edit.png)
    
- - You are redirected to the CAS login page where you can use your Pass account:
+ - You are redirected to the CAS login page where you can use your Pass account (email address and password specified
+   during Pass registration):
  
    ![Which redirects to the CAS login page where you can use your Pass account](img/hub-140-edit.png)
    
@@ -82,12 +84,16 @@ the API key which will be required to access the repository.
 Ensure that your ChemAxon license file is installed
 ---------------------------------------------------
 
-To request a free evaluation license please contact us at [sales@chemaxon.com](mailto:sales@chemaxon.com).
+Many of the provided functionalities require a ChemAxon license. To request a free evaluation license please contact us
+at [sales@chemaxon.com](mailto:sales@chemaxon.com).
 
 ```` bash
 mkdir -p ~/.chemaxon/
 cp license.cxl ~/.chemaxon/
 ````
+
+Further details can be found in 
+[ChemAxon Installing Licenses](http://www.chemaxon.com/marvin/help/licensedoc/install.html) documentation.
 
 
 Clone `jklustor-web-examples`
