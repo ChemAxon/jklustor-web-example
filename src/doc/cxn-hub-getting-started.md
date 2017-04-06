@@ -25,19 +25,24 @@ Ensure that you have a ChemAxon Pass user registered. To register a new user vis
 which is available from ChemAxon home page <https://www.chemaxon.com>.
 
  - You can access Pass registration from ChemAxon home page:
+ 
    ![You can access Pass registration from ChemAxon home page](img/hub-010-edit.png)
    
  - On the Pass registration form fill your details:
+ 
    ![On the Pass registration form fill your details](img/hub-030-edit.png)
    
  - An activation email is sent to you:
+ 
    ![An activation email is sent to you](img/hub-040-edit.png)
    
  - The activation email contains a link to activate your ChemAxon Pass account. On the activation page you need to 
    specify a password:
+   
    ![Which contains a link to activate your ChemAxon Pass account by setting up your password](img/hub-060-edit.png)
    
  - After the password is specified your ChemAxon Pass account is ready to use:
+ 
    ![To make your ChemAxon Pass account ready to use](img/hub-070-edit.png)
 
 
