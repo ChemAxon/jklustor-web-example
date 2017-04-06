@@ -19,7 +19,7 @@ Further docs
 ------------
 
  - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
- - [Getting started with <https://hub.chemaxon.com>](src/doc/cxn-hub-getting-started.md)
+ - [Getting started with `https://hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md)
 
 Summary
 -------
@@ -42,7 +42,8 @@ you need to request access to ChemAxon public repository <https://hub.chemaxon.c
 build script using Gradle properties. Descriptions below use the command line argument (`-P<key>=<value>`) approach.
 Further ways to set project properties are described in <http://mrhaki.blogspot.hu/2010/09/gradle-goodness-different-ways-to-set.html>.
 
-See <https://docs.chemaxon.com/display/docs/Public+Repository> and <src/doc/cxn-hub-getting-started.md> for details.
+See <https://docs.chemaxon.com/display/docs/Public+Repository> and
+[Getting started with `https://hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md) for details.
 
 ### Installing license
 
