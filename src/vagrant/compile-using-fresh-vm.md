@@ -20,7 +20,7 @@ Prepare prerequisuites
  - Make sure you have a ChemAxon Pass user and a hub.chemaxon.com API key to be used as credentials. See 
    [Getting started with `hub.chemaxon.com`](../doc/cxn-hub-getting-started.md) for details.
 
-   
+
 Create and launch VM, clone, compile and run project
 ----------------------------------------------------
 
@@ -33,16 +33,18 @@ Create and launch VM, clone, compile and run project
  - After startup open a web browser (on the host) and connect to <http://localhost:8090>. Note that
    port 8090 of the VM is forwarded from port 8090 of the host (specified in `Vagrantfile`).
  - To reinitialize the VM use `vagrant destroy && vagrant up`.
- 
- 
- Further information
- -------------------
- 
+ - To list status of all active Vagrant environments use `vagrant global-status` (see
+   <https://www.vagrantup.com/docs/cli/global-status.html> for details).
+
+
+Further information
+-------------------
+
  Feel free to check the contents of the included [Vagrantfile](Vagrantfile). The configuration is based on a default
- `ubuntu/trusty64` box with the following modifications:
- 
-  - Port 8090 of the host is forwarede to the port 8090 of the VM. This allows an easy connection with a browser to the
-    running web application inside the VM.
+`ubuntu/trusty64` box with the following modifications:
+
+  - Port 8090 of the host is forwarede to the port 8090 of the VM. This allows an easy connection with a browser (on 
+    the host) to the running web application inside the VM.
   - VM memory is set to 2048M.
   - JDK is installed on the VM.
   - Memory for `gradle` build is set to 1768M.
