@@ -126,7 +126,7 @@ public final class HierarchicClusteringExample {
 
         // Acquire descriptor/comparator to be used --------------------------------------------------------------------
         // Will use default ECFP
-        final EcfpGenerator gen = (new EcfpParameters()).getDescriptorGenerator();
+        final EcfpGenerator gen = new EcfpParameters().getDescriptorGenerator();
         final EcfpComparator comp = gen.getBinaryMetricsComparator(BinaryMetrics.BINARY_TANIMOTO);
 
         // Construct dissimilarity input
