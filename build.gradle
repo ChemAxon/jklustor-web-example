@@ -12,7 +12,7 @@
 buildscript {
     // SpringBoot plugin and optionally Gluon requires the buildscript block declaration
     ext {
-        springBootVersion = '1.3.5.RELEASE'
+        springBootVersion = '1.4.1.RELEASE'
     }
     // We can not put buildscript blocks into the conditional statements below.
     // However using this conditional inside the top level buildscript block seemingly works.
