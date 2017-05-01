@@ -32,7 +32,7 @@ buildscript {
         }
 
         repositories cxnRepository
-        dependencies.classpath "com.chemaxon:gluon-plugins:${branchName}-+"
+        dependencies.classpath "com.chemaxon:gluon-plugins:${gluonVersion}"
     } else {
         repositories {
             mavenCentral()
@@ -92,14 +92,11 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
         ant.fail("Both properties \"cxnHubUser\" and \"cxnHubPass\" must be definied for open source configuration.");
     }
 
-    // Dependencies managed by ChemAxon internal CI environment (gluon) are referenced
-    // using  "cxnProject("<ORG>", "<DEP>"). Closure 'cxnProject' is normally defined by
-    // one of the Gradle plugins used in the internal environment.
-
-    // When using this "Open-source" configuration with ChemAxon public repository "hub.chemaxon.com"
-    // the dependencies are referenced using the associated release version. Closure 'cxnProject'
-    // is defined here to append this fixed version.
-    project.metaClass.cxnProject = { group, name -> "${group}:${name}:${cxnReleaseVersion}" }
+    // When using this "Open-source" configuration with ChemAxon public repository "hub.chemaxon.com",
+    // the dependencies are referenced using the associated release version.
+    if (project.hasProperty('cxnReleaseVersion')) {
+        project.cxnDependencyVersion = project.cxnReleaseVersion
+    }
 
     repositories {
         maven {
@@ -135,7 +132,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 
-
 dependencies {
     // Spring boot dependencies
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -157,14 +153,14 @@ dependencies {
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 
 
-    // This dependency declaration format (using cxnProject('<group>', '<name>')) is required by ChemAxon proprietary
+    // This dependency declaration format (using "<group>:<name>:${cxnDependencyVersion}") is required by ChemAxon proprietary
     // CI environment 'Gluon'. In the 'Open source' configuration this closure is defined above to translate this
     // to simple '<group>:<name>:<releaseversion>' dependency declarations which are compatible with ChemAxon public
     // repository (hub.chemaxon.com)
-    compile cxnProject('com.chemaxon', 'overlap-cli-utils')
-    compile cxnProject('com.chemaxon', 'overlap-core')
-    compile cxnProject('com.chemaxon', 'overlap-descriptors')
-    compile cxnProject('com.chemaxon', 'overlap-img')
+    compile "com.chemaxon:overlap-cli-utils:${cxnDependencyVersion}"
+    compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
+    compile "com.chemaxon:overlap-descriptors:${cxnDependencyVersion}"
+    compile "com.chemaxon:overlap-img:${cxnDependencyVersion}"
 
     compile 'commons-logging:commons-logging:1.1.1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
@@ -172,8 +168,8 @@ dependencies {
 
     compile 'com.google.code.findbugs:annotations:2.0.1'
 
-    // testCompile cxnProject('com.chemaxon', 'disco-test-utils')
-    // testCompile cxnProject('com.chemaxon', 'disco-test-utils-mol')
+    // testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
+    // testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
     testCompile 'junit:junit:4.12'
 
     testCompile 'org.hamcrest:hamcrest-all:1.3'
