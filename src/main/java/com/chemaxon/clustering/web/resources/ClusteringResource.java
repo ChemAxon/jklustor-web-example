@@ -22,9 +22,11 @@ import com.chemaxon.clustering.web.dto.Deleted;
 import com.chemaxon.clustering.web.dto.HierarchicClustering;
 import com.chemaxon.clustering.web.entities.Clustering;
 import com.chemaxon.clustering.web.services.ClusteringService;
+import com.chemaxon.clustering.cli.DetailedClusteringRendering;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import java.io.ByteArrayOutputStream;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,6 +35,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.chemaxon.calculations.common.ProgressObservers;
+import java.io.IOException;
+
 
 /**
  * Query hierarchic clustering results.
@@ -95,6 +100,32 @@ public class ClusteringResource {
         return ret;
     }
 
+    
+    @GET
+    @Path("{clustering}/hierarchy-image")
+    @Produces("image/png")
+    public byte[] getClusteringHierarchyAsPng(
+            @PathParam("clustering") Clustering clustering
+    ) throws IOException {
+        final DetailedClusteringRendering rendering = new DetailedClusteringRendering(clustering.getClustering())
+                .levelAware(800, clustering.getAssigner());
+        /*
+                .leafImageSize(of(10, 10))
+                .leafImage((leafid, renderer, area) -> renderer
+                        .setFontHeight(area.sy())
+                        .setColor("#000000")
+                        .placeHorizontalTextInto(input.getMolecule(leafid).getName(), Halign.LEFT, Valign.FILL, area, 0, 0)
+
+                )
+                .writeToPngImage(out, outpo);
+        */
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            rendering.writeToPngImage(baos, ProgressObservers.nullProgressObserver());
+            return baos.toByteArray();
+        } 
+    }
+    
+    
     /**
      * Basic description of a clustering.
      *
