@@ -16,6 +16,8 @@
  */
 package com.chemaxon.clustering.cli;
 
+import chemaxon.clustering.adapter.LegacyLibraryMcsAdapter;
+import chemaxon.clustering.adapter.LegacyLibraryMcsParameters;
 import chemaxon.struc.Molecule;
 import com.chemaxon.calculations.common.SubProgressObserver;
 import com.chemaxon.calculations.io.CloseableIterator;
@@ -332,17 +334,25 @@ public final class BemisMurckoCli {
                             outpo);
                     break;
                 }
-                case BMTREEIMG: {
+                case BMTREEIMG:
+                case LIBMCSIMG: {
                     // Create clustering and traverse to create an image output
                     // Iterate inputs
                     final SmilesMemoizingMoleculeIterator sci =
                             MoleculeIo.molImporterMemoizingIterator(mi, params.errorHandling.getSuitableErrorHandler());
 
                     // Launch clustering
-                    final FrameworkClusteringResults tree = BemisMurckoClustering
-                            .ofOrderedMoleculesIterator(sci)
-                            .withErrorHandler(params.errorHandling.getSuitableErrorHandler())
-                            .launch(po);
+                    final FrameworkClusteringResults tree;
+
+                    if (params.mode == BemisMurckoCliParameters.Mode.BMTREEIMG) {
+                        tree = BemisMurckoClustering
+                                .ofOrderedMoleculesIterator(sci)
+                                .withErrorHandler(params.errorHandling.getSuitableErrorHandler())
+                                .launch(po);
+                    } else {
+                        final LegacyLibraryMcsParameters lp = LegacyLibraryMcsAdapter.defaultParameters();
+                        tree = LegacyLibraryMcsAdapter.cluster(lp, sci.transform( e -> e.getValue() ));
+                    }
 
 
                     env.whenStat(t -> t.targetCount = sci.size());
@@ -360,6 +370,8 @@ public final class BemisMurckoCli {
                             outpo);
                     break;
                 }
+
+
                 case DENDROGRAM: {
                     // Acquire clustering method
                     final BiFunction<DissimilarityInput, SubProgressObserver, IDBasedHierarchicClustering> clusteringMethod =

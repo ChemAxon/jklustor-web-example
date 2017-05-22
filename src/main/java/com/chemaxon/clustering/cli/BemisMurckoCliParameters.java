@@ -105,7 +105,8 @@ public class BemisMurckoCliParameters {
             + " to read and write back molecules as SMILES, \"READWRITECANONIC\" to read and write back molecules as"
             + " canonical SMILES, \"BMF\" to calculate and write bemis-murcko frameworks as SMILES, \"BMTREEMOL\" to"
             + " write bemis-murcko clastering in a traversed molecule format or \"BMTREEIMG\" to generate an image"
-            + " from the clustering. Use \"DENDROGRAM\" to launch a clustering and write a dendrogram image.")
+            + " from the clustering. Use \"LIBMCSIMG\" to launch Legacy Library MCS clustering and write dendrogram"
+            + " image. Use \"DENDROGRAM\" to launch a clustering and write a dendrogram image.")
     public Mode mode = Mode.READMOLS;
 
     @Parameter(names = "-errorhandling", description = "Input related error handling. Use \"FAIL\", \"LOG\" or"
@@ -152,6 +153,11 @@ public class BemisMurckoCliParameters {
          * Write Bemisu-Murcko clustering as an image.
          */
         BMTREEIMG,
+
+        /**
+         * Write legacy LibMcs clustering as an image.
+         */
+        LIBMCSIMG,
 
         /**
          * Launch a clustering and write a dendrogram image.

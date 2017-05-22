@@ -161,6 +161,7 @@ dependencies {
     compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-descriptors:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-img:${cxnDependencyVersion}"
+    compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
 
     compile 'commons-logging:commons-logging:1.1.1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
