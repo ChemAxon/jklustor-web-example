@@ -237,7 +237,7 @@ bootRun {
 }
 
 
-task createScripts(dependsOn: pathingJar, description: 'Create launcher scripts for command line interfaces.') << {
+task createScripts(dependsOn: jar, description: 'Create launcher scripts for command line interfaces.') << {
     def scriptsDir = file("${buildDir}/scripts/")
     scriptsDir.deleteDir()
     scriptsDir.mkdir()
