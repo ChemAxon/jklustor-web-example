@@ -12,7 +12,7 @@
 buildscript {
     // SpringBoot plugin and optionally Gluon requires the buildscript block declaration
     ext {
-        springBootVersion = '1.4.1.RELEASE'
+        springBootVersion = '1.5.1.RELEASE'
     }
     // We can not put buildscript blocks into the conditional statements below.
     // However using this conditional inside the top level buildscript block seemingly works.
@@ -40,6 +40,9 @@ buildscript {
     }
     dependencies.classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 }
+
+apply plugin: 'spring-boot' // Moved here because of early access dependency resolution workaround 
+
 
 // Set up repositories for compilation, and optionally Gluon related plugin(s)
 if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')) {
@@ -108,6 +111,30 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
         }
         // mavenCentral()
     }
+
+    // EARLY ACCESS WORKAROUND
+    //
+    // New features of the ChemAxon proprietary dependencies are not released yet, so they are not available
+    // through hub.chemaxon.com as expected. Their development versions are however temporarily exposed under 
+    // group name com.chemaxon.earlyaccess (without dependencies).
+    // To use the early access version of these artifacts some workaround is needed in this build script.
+    // Please note that after these modifications are released the early access artifacts will be removed from
+    // the repository and from this script. These dependencies are not recommended to be used in a production
+    // environment.
+    
+    dependencies {
+        compile "com.chemaxon.earlyaccess:libmcs:17.9.0"  // Early access version required
+        compile "com.chemaxon.earlyaccess:overlap-core:17.9.0-6900" // Early access version required
+        testCompile "com.chemaxon.earlyaccess:disco-test-utils-mol:17.9.0-6900" // Early access version required
+
+        // Early access version is used  -- compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
+        // Early access version is used  -- compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
+        // Early access version is used  -- testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
+
+        compile "com.chemaxon:jchem-main:${cxnDependencyVersion}" // This artifact is a dependency of libmcs
+    }
+    // END OF EARLY ACCESS WORKAROUND 
+
 } else {
     // Using Gluon based CXN dependency version management, currently intended for ChemAxon internal use only.
 
@@ -118,6 +145,18 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
 
     apply plugin: 'cxn-gluon'
     apply plugin: 'cxn-java'
+
+    // EARLY ACCESS WORKAROUND
+    //
+    // Early access version of dependencies libmcs and disco-test-utils-mol are used in the open source
+    // configuration.
+
+    dependencies {
+        compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
+        compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
+        testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
+    }
+
 }
 
 // End of configuration discovery logic ===================================
@@ -125,7 +164,6 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
 apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 
 sourceCompatibility = 1.8
@@ -133,7 +171,7 @@ targetCompatibility = 1.8
 
 
 dependencies {
-    // Spring boot dependencies
+    // Spring boot dependencies -----------------------------------------------------------------------------------------------
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-actuator-docs')
     compile('org.springframework.boot:spring-boot-starter-hateoas')
@@ -146,30 +184,30 @@ dependencies {
     // See https://jira.exoplatform.org/browse/CRASH-247
     compile('org.springframework.boot:spring-boot-starter-remote-shell')
 
-     // use boot-devtools, see http://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html
+    // use boot-devtools, see http://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html
     // compile("org.springframework.boot:spring-boot-devtools")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 
-
+    // ChemAxon proprietary dependencies ----------------------------------------------------------------------------------------
     // This dependency declaration format (using "<group>:<name>:${cxnDependencyVersion}") is required by ChemAxon proprietary
     // CI environment 'Gluon'.
     // repository (hub.chemaxon.com)
+    // Some dependencies are used in an early access version; see above for the details
+
     compile "com.chemaxon:overlap-cli-utils:${cxnDependencyVersion}"
-    compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-descriptors:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-img:${cxnDependencyVersion}"
-    compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
+    testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
+
+
+    // Other dependencies --------------------------------------------------------------------------------------------------------
     compile 'commons-logging:commons-logging:1.1.1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.guava:guava:20.0'
     compile 'com.google.code.findbugs:annotations:2.0.1'
-
-    testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
-    testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
     testCompile 'junit:junit:4.12'
-
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'org.mockito:mockito-all:1.10.19'
 }
