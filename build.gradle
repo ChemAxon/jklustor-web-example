@@ -154,23 +154,20 @@ dependencies {
 
 
     // This dependency declaration format (using "<group>:<name>:${cxnDependencyVersion}") is required by ChemAxon proprietary
-    // CI environment 'Gluon'. In the 'Open source' configuration this closure is defined above to translate this
-    // to simple '<group>:<name>:<releaseversion>' dependency declarations which are compatible with ChemAxon public
+    // CI environment 'Gluon'.
     // repository (hub.chemaxon.com)
     compile "com.chemaxon:overlap-cli-utils:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-descriptors:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-img:${cxnDependencyVersion}"
     compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
-
     compile 'commons-logging:commons-logging:1.1.1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.guava:guava:20.0'
-
     compile 'com.google.code.findbugs:annotations:2.0.1'
 
-    // testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
-    // testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
+    testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
+    testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
     testCompile 'junit:junit:4.12'
 
     testCompile 'org.hamcrest:hamcrest-all:1.3'
