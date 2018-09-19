@@ -22,6 +22,11 @@ buildscript {
 
         println "-------------------------------------------------------------------------------------------"
         println "[buildscript block] ChemAxon internal build environment (Gluon). For details see README.md"
+        println ""
+        println "For typical usage specify your registered ChemAxon PASS email and HUB API key:"
+        println ""
+        println "    ./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> ....."
+        println "" 
         println "-------------------------------------------------------------------------------------------"
         println ""
 
@@ -109,31 +114,8 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
                 password "${cxnHubPass}"
             }
         }
-        // mavenCentral()
+        mavenCentral()
     }
-
-    // EARLY ACCESS WORKAROUND
-    //
-    // New features of the ChemAxon proprietary dependencies are not released yet, so they are not available
-    // through hub.chemaxon.com as expected. Their development versions are however temporarily exposed under 
-    // group name com.chemaxon.earlyaccess (without dependencies).
-    // To use the early access version of these artifacts some workaround is needed in this build script.
-    // Please note that after these modifications are released the early access artifacts will be removed from
-    // the repository and from this script. These dependencies are not recommended to be used in a production
-    // environment.
-    
-    dependencies {
-        compile "com.chemaxon.earlyaccess:libmcs:17.9.0"  // Early access version required
-        compile "com.chemaxon.earlyaccess:overlap-core:17.9.0-6900" // Early access version required
-        testCompile "com.chemaxon.earlyaccess:disco-test-utils-mol:17.9.0-6900" // Early access version required
-
-        // Early access version is used  -- compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
-        // Early access version is used  -- compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
-        // Early access version is used  -- testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
-
-        compile "com.chemaxon:jchem-main:${cxnDependencyVersion}" // This artifact is a dependency of libmcs
-    }
-    // END OF EARLY ACCESS WORKAROUND 
 
 } else {
     // Using Gluon based CXN dependency version management, currently intended for ChemAxon internal use only.
@@ -145,17 +127,6 @@ if (project.hasProperty('cxn_repo_user') || project.hasProperty('cxn_repo_pass')
 
     apply plugin: 'cxn-gluon'
     apply plugin: 'cxn-java'
-
-    // EARLY ACCESS WORKAROUND
-    //
-    // Early access version of dependencies libmcs and disco-test-utils-mol are used in the open source
-    // configuration.
-
-    dependencies {
-        compile "com.chemaxon:libmcs:${cxnDependencyVersion}"
-        compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
-        testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
-    }
 
 }
 
@@ -196,10 +167,17 @@ dependencies {
     // repository (hub.chemaxon.com)
     // Some dependencies are used in an early access version; see above for the details
 
+
+    // see https://github.com/ChemAxon/jchem-examples/blob/master/build.gradle
+    compile("com.chemaxon:libmcs:${cxnDependencyVersion}") {
+        exclude group: 'com.oracle.jdbc', module: 'ojdbc8'
+    }
+    compile "com.chemaxon:overlap-core:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-cli-utils:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-descriptors:${cxnDependencyVersion}"
     compile "com.chemaxon:overlap-img:${cxnDependencyVersion}"
     testCompile "com.chemaxon:disco-test-utils:${cxnDependencyVersion}"
+    testCompile "com.chemaxon:disco-test-utils-mol:${cxnDependencyVersion}"
 
 
     // Other dependencies --------------------------------------------------------------------------------------------------------
