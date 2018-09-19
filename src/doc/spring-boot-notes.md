@@ -10,8 +10,9 @@ Recommended `gradle` tasks
 
 Note that credentials usually must be specified for all `gradle` invocations.
 
-  - `./gradlew ..... bootRun`: Launch server
-  - `./gradlew ..... processResources`: Recommended to invoke when the server is running and static content changed.
+  - `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> bootRun`: Launch server
+  - `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> processResources`: Recommended to invoke
+    when the server is running and static content changed.
 
 
 Application config

@@ -9,7 +9,8 @@ JKlustor web example
     Please note that the associated workarounds will be removed when the relevant features are available in a regular
     release.
 
-  - ChemAxon public repository (repository.chemaxon.com) used by previous versions is changed. Please 
+  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (repository.chemaxon.com) 
+    used by previous versions is changed. Please 
     [ensure](src/doc/cxn-hub-getting-started.md) that you have access to the new repository (hub.chemaxon.com). Contact us
     at [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
     with further questions.
@@ -41,6 +42,9 @@ clustering workflow will be implemented providing the following functionalities:
   - The dendrogram can be collapsed at an arbitrary similarity level into a non-hierarchical clustering
   - Results can be downloaded in various formats
 
+Additionally some further basic examples of associated APIs can be found in 
+`src/main/java/com/chemaxon/clustering/examples`.
+
 
 Getting started
 ---------------
@@ -67,9 +71,9 @@ See <https://docs.chemaxon.com/display/docs/Public+Repository> and
   - Make sure that you have the required credentials to access ChemAxon public repository <https://hub.chemaxon.com>
     described above
   - For low memory machines use `export GRADLE_OPTS=-Xmx1768m`
-  - Launch `./gradlew -PcxnHubUser=<USERNAME> -PcxnHubPass=<PASSWORD> bootRun` to start embedded server.
-  - Launch `./gradlew -PcxnHubUser=<USERNAME> -PcxnHubPass=<PASSWORD> jar` to compile API examples.
-  - Launch `./gradlew -PcxnHubUser=<USERNAME> -PcxnHubPass=<PASSWORD> createScripts` to create linux/cygwin `bash`
+  - Launch `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> bootRun` to start embedded server.
+  - Launch `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> jar` to compile API examples.
+  - Launch `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> createScripts` to create linux/cygwin `bash`
     launcher scripts.
   - ChemAxon staff with access to internal build environment "Gluon" can use the project without providing these
     credentials.

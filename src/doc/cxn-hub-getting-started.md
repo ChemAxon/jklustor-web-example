@@ -7,13 +7,15 @@ is based on document <https://docs.chemaxon.com/display/docs/Public+Repository>.
 Please note that you will need a license file for most functionalities. To request a free evaluation license please
 contact us at [sales@chemaxon.com](mailto:sales@chemaxon.com).
 
+Please note that the visited webpages might look slightly differently than in the screenshots.
+
 Overview
 --------
 
- - Register a ChemAxon Pass user. The email associated with the pass registration is used as the `username` credential
-   during build.
+ - Register a ChemAxon Pass user. The email associated with the pass registration is used as the `<YOUR PASS EMAIL>` 
+   credential during build.
  - Use the ChemAxon Pass account to log in `hub.chemaxon.com` and generate an API key. The generated API key is used as
-   the `password` credential during build.
+   the `<YOUR HUB API KEY>` credential during build.
  - Clone the [jklustor-web-example](https://github.com/ChemAxon/jklustor-web-example) project from GitHub, set up
    ChemAxon license, and invoke build with the credentials acquired.
 
@@ -50,19 +52,19 @@ which is available from ChemAxon home page <https://www.chemaxon.com>.
 Get an API key for <https://hub.chemaxon.com>
 ---------------------------------------------
 
-Visit <https://hub.chemaxon.com>, select **"Or sign in with: CAS"** and sign in with your ChemAxon Pass credentials. After
+Visit <https://hub.chemaxon.com>, select **"Or sign in with: GATE"** and sign in with your ChemAxon Pass credentials. After
 logging in click on your user name (at the top-right) part of the page and click to generate an API key. You can reveal
 and copy the API key which will be required to access the repository.
 
- - On <https://hub.chemaxon.com> select **"Or sign in with: CAS"**. Do not enter any "Username" or "Password" on this
+ - On <https://hub.chemaxon.com> select **"Or sign in with: GATE"**. Do not enter any "Username" or "Password" on this
    page:
  
-   ![Choose sign in with CAS](img/hub-110-edit.png)
+   ![Choose sign in with GATE](img/hub-110-edit.png)
    
- - You are redirected to the CAS login page where you can use your Pass account (email address and password specified
+ - You are redirected to the GATE login page where you can use your Pass account (email address and password specified
    during Pass registration):
  
-   ![Which redirects to the CAS login page where you can use your Pass account](img/hub-140-edit.png)
+   ![Which redirects to the GATE login page where you can use your Pass account](img/hub-140-edit.png)
    
  - After a successfull log-in click on your user name at the top-right:
  
@@ -108,8 +110,8 @@ cd jklustor-web-examples
 Use the acquired API key for compilation
 ----------------------------------------
 
-Use your email associated with your Pass account as `cxnHubUser` and the Hub API key acquired as the `cxnHubPass`. For
-compilation you will need Java 1.8 installed. 
+Use your email associated with your Pass account as `<YOUR PASS EMAIL>` and the Hub API key acquired as the 
+`<YOUR HUB API KEY>`. For compilation you will need Java 1.8 installed. 
 
 Please note that a Vagrant configuration is also provided which sets up
 an Ubuntu based box with Java and ChemAxon licenses installed. For details see document 
