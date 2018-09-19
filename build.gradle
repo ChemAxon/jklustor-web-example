@@ -26,7 +26,7 @@ buildscript {
         println "For typical usage specify your registered ChemAxon PASS email and HUB API key:"
         println ""
         println "    ./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> ....."
-        println "" 
+        println ""
         println "-------------------------------------------------------------------------------------------"
         println ""
 
@@ -46,7 +46,7 @@ buildscript {
     dependencies.classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 }
 
-apply plugin: 'spring-boot' // Moved here because of early access dependency resolution workaround 
+apply plugin: 'spring-boot' // Moved here because of early access dependency resolution workaround
 
 
 // Set up repositories for compilation, and optionally Gluon related plugin(s)
@@ -246,7 +246,7 @@ jar {
 bootRun {
     dependsOn pathingJar
     doFirst {
-        classpath = files("$buildDir/classes/main", "$buildDir/resources/main", pathingJar.archivePath)
+        classpath = files(sourceSets.main.java.outputDir, sourceSets.main.output.resourcesDir, pathingJar.archivePath)
     }
 }
 
@@ -262,9 +262,12 @@ task createScripts(dependsOn: jar, description: 'Create launcher scripts for com
         println "Create script " + script + " for main class " + className
 
         // do not add extra 'bin' dir to the classpath
+        // See https://discuss.gradle.org/t/build-path-for-java-classes-changed-from-3-x-to-4-x/24168/4
+        // See https://stackoverflow.com/questions/44789575/gradle-get-resources-default-output-directory
+        // See https://docs.gradle.org/current/userguide/java_plugin.html#sec:working_with_java_source_sets
         script.text = String.format(
             'java -Xmx4g -classpath "%s" %s "$@"\n',
-			files("$buildDir/classes/main", "$buildDir/resources/main", pathingJar.archivePath).asPath,
+			files(sourceSets.main.java.outputDir, sourceSets.main.output.resourcesDir, pathingJar.archivePath).asPath,
 			className)
             //(sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath).asPath, className)
             //(sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath + files('src/config')).asPath, className)
