@@ -3,14 +3,14 @@ JKlustor web example
 
 
 
-**IMPORTANT:** 
+**IMPORTANT:**
 
   - Early access version is used for some of the ChemAxon proprietary dependencies. See `build.gradle` for details.
     Please note that the associated workarounds will be removed when the relevant features are available in a regular
     release.
 
-  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (repository.chemaxon.com) 
-    used by previous versions is changed. Please 
+  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (repository.chemaxon.com)
+    used by previous versions is changed. Please
     [ensure](src/doc/cxn-hub-getting-started.md) that you have access to the new repository (hub.chemaxon.com). Contact us
     at [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
     with further questions.
@@ -29,7 +29,7 @@ Further docs
  - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
  - [Getting started with `hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md)
 
- 
+
 Summary
 -------
 
@@ -42,7 +42,7 @@ clustering workflow will be implemented providing the following functionalities:
   - The dendrogram can be collapsed at an arbitrary similarity level into a non-hierarchical clustering
   - Results can be downloaded in various formats
 
-Additionally some further basic examples of associated APIs can be found in 
+Additionally some further basic examples of associated APIs can be found in
 `src/main/java/com/chemaxon/clustering/examples`.
 
 
@@ -89,6 +89,7 @@ After a successful launch with the `bootRun` target use a browser and open <http
 After a successful compilation with the `createScript` target invoke the following commands to launch simple API usage examples.
 
 ``` bash
+cat src/data/molecules/vitamins/vitamins.smi | ./build/scripts/cfpDissimilarityExample
 cat src/data/molecules/vitamins/vitamins.smi | ./build/scripts/sphexExample
 cat src/data/molecules/vitamins/vitamins.smi | ./build/scripts/hierarchicClusteringExample
 ```
@@ -99,6 +100,7 @@ cat src/data/molecules/vitamins/vitamins.smi | ./build/scripts/hierarchicCluster
 After a successful compilation with the `jar` target invoke the following commands to launch simple API usage examples.
 
 ```` bash
+cat src/data/molecules/vitamins/vitamins.smi | java -classpath build/libs/jklustor-web-example-0.0.2-SNAPSHOT.jar com.chemaxon.clustering.examples.CfpDissimilarityExample
 cat src/data/molecules/vitamins/vitamins.smi | java -classpath build/libs/jklustor-web-example-0.0.2-SNAPSHOT.jar com.chemaxon.clustering.examples.SphexExample
 cat src/data/molecules/vitamins/vitamins.smi | java -classpath build/libs/jklustor-web-example-0.0.2-SNAPSHOT.jar com.chemaxon.clustering.examples.HierarchicClusteringExample
 ````
