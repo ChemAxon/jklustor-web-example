@@ -158,6 +158,28 @@
                 });
             };
 
+            var launch_random_grouping = function(params) {
+                if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
+                if (!params.count) { throw new Error('Parameter count not specified.'); }
+
+                var requestData = {
+                    molfile : params.molfile,
+                    count : params.count
+
+                };
+
+                $.ajax({
+                    url : 'rest/launch-grouping/invoke-random-clustering-on-molfile',
+                    type : 'POST',
+                    data : requestData,
+                    success : function(result, status, xhr) {
+                        params.success(xhr.responseJSON);
+                    }
+                });
+            };
+
+
             var delete_molfile = function(params) {
                 if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
                 if (!params.success) { throw new Error('Parameter success not specified.'); }
@@ -262,11 +284,21 @@
                             });
                     actionsCell.append('button')
                             .classed('btn btn-default btn-xs', true)
-                            .text("RandomSel!")
+                            .text("Random Selection!")
                             .on('click', function(d) {
                                 launch_random_selection({
                                     molfile : d.id,
                                     count : 20,
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
+                                });
+                            });
+                    actionsCell.append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Random grouping!")
+                            .on('click', function(d) {
+                                launch_random_grouping({
+                                    molfile : d.id,
+                                    count : 5,
                                     success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
                                 });
                             });

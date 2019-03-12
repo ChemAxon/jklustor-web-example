@@ -42,7 +42,79 @@ public class GroupingService {
 
     /**
      * Invoke a random grouping of structures into approximately equal sized clusters.
+     *
+     * @param molfile Source
+     * @param clusterCount Maximal number of clusters to sort structures
+     * @param idSuggestion Suggestion for ID of the result
+     * @return Executed clustering
      */
+    public Grouping invokeRandomClustering(Molfile molfile, int clusterCount, String idSuggestion ) {
+        final long timeStart = System.currentTimeMillis();
+
+        if (clusterCount > molfile.size()) {
+            clusterCount = molfile.size();
+        }
+
+        // Do a full Fisher-Yates shuffle on initial molecule indices
+        // Pseudocode of the shuffle (see wiki article above)
+        //   for i from 0 to n-1 do
+        //     a[i] = i
+        //
+        //   -- To shuffle an array a of n elements (indices 0..n-1):
+        //   for i from 0 to n−2 do
+        //     let j be a random integer such that i ≤ j < n
+        //     exchange a[i] and a[j]
+
+        final int n = molfile.size();
+        final int [] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = i;
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            final int j = i + (int) Math.round((n - i - 1) * Math.random());
+
+            final int ai = a[i];
+            final int aj = a[j];
+
+            a[i] = aj;
+            a[j] = ai;
+        }
+
+        // add the first required elements
+        final IDBasedClusterBuilder b = new IDBasedClusterBuilder();
+
+        final int [] clusterIndices = new int[clusterCount];
+        for (int i = 0; i < clusterCount; i++) {
+            clusterIndices[i] = b.addNewCluster();
+        }
+        for (int i = 0; i < n; i++) {
+            final int ci = clusterIndices[i % clusterCount];
+
+            b.addStructureToCluster(
+                a[i], // structure ID
+                ci  // cluster ID
+            );
+
+            if (i < clusterCount) {
+                b.updateRepresentant(a[i], ci);
+            }
+        }
+
+        final long timeStop = System.currentTimeMillis();
+
+        final Grouping g = new Grouping(
+            b.build(),
+            timeStop - timeStart,
+            "Random clustering into " + clusterCount + " clusters from " + molfile.size()
+        );
+
+        this.groupingDao.add(idSuggestion, g);
+
+        return g;
+
+
+    }
 
 
     /**

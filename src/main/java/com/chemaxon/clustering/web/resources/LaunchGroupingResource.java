@@ -50,6 +50,36 @@ public class LaunchGroupingResource {
     private GroupingResource groupingResource;
 
     /**
+     * Invoke random clustering.
+     *
+     * @param molfileId Structures to cluster
+     * @param count Max cluster count
+     * @return Grouping info
+     */
+    @POST
+    @Path("invoke-random-clustering-on-molfile")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public GroupingInfo invokRandomClusteringOnMolfile(
+            @FormParam("molfile") String molfileId,
+            @FormParam("count") @DefaultValue("10") int count
+    ) {
+        if (molfileId == null) {
+            throw new IllegalArgumentException("No molfile specified");
+        }
+        final Molfile molfile = this.molfilesService.getMolfile(molfileId);
+
+        if (count <= 0) {
+            throw new IllegalArgumentException("No or invalid count specified: " + count);
+        }
+
+        final Grouping grp = this.groupingService.invokeRandomClustering(molfile, count, this.molfilesService.getMolfileId(molfile) + "-rnd-grp-" + count);
+        return this.groupingResource.groupingInfo(grp);
+
+    }
+
+
+    /**
      * Invoke random selection.
      *
      * @param molfileId Structures to cluster
@@ -73,10 +103,9 @@ public class LaunchGroupingResource {
             throw new IllegalArgumentException("No or invalid count specified: " + count);
         }
 
-        final Grouping grp = this.groupingService.invokeRandomSelection(molfile, count, this.molfilesService.getMolfileId(molfile) + "-rnd-" + count);
+        final Grouping grp = this.groupingService.invokeRandomSelection(molfile, count, this.molfilesService.getMolfileId(molfile) + "-rnd-sel-" + count);
         return this.groupingResource.groupingInfo(grp);
 
     }
-
 
 }
