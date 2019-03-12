@@ -18,8 +18,10 @@
 package com.chemaxon.clustering.web.application;
 
 import com.chemaxon.clustering.web.entities.Clustering;
+import com.chemaxon.clustering.web.entities.Grouping;
 import com.chemaxon.clustering.web.entities.Molfile;
 import com.chemaxon.clustering.web.services.ClusteringService;
+import com.chemaxon.clustering.web.services.GroupingService;
 import com.chemaxon.clustering.web.services.MolfilesService;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -48,11 +50,21 @@ public class ParamConverterProviderImpl implements ParamConverterProvider {
      */
     private ParamConverter<Clustering> clusteringIdLookupParamConverter;
 
+    /**
+     * Converter to look up instances.
+     */
+    private ParamConverter<Grouping> groupingIdLookupParamConverter;
+
     // Constructor injection is used to allow the usage of inner class converter
     @Autowired
-    public ParamConverterProviderImpl(MolfilesService molfilesService, ClusteringService clusteringService) {
+    public ParamConverterProviderImpl(
+        MolfilesService molfilesService,
+        ClusteringService clusteringService,
+        GroupingService groupingService
+    ) {
         this.molfileIdLookupParamConverter = new MolfileIdLookupParamConverter(molfilesService);
         this.clusteringIdLookupParamConverter = new ClusteringIdLookupParamConverter(clusteringService);
+        this.groupingIdLookupParamConverter = new GroupingIdLookupParamConverter(groupingService);
     }
 
     @Override
@@ -61,7 +73,9 @@ public class ParamConverterProviderImpl implements ParamConverterProvider {
             return (ParamConverter<T>) this.molfileIdLookupParamConverter;
         } else if (rawType == Clustering.class) {
             return (ParamConverter<T>) this.clusteringIdLookupParamConverter;
-        } else {
+        } else if (rawType == Grouping.class) {
+            return (ParamConverter<T>) this.groupingIdLookupParamConverter;
+        }else {
             return null;
         }
     }
@@ -129,6 +143,39 @@ public class ParamConverterProviderImpl implements ParamConverterProvider {
         }
 
     }
+
+
+    /**
+     * Looking up instance by ID.
+     */
+    private static class GroupingIdLookupParamConverter implements ParamConverter<Grouping> {
+
+        /**
+         * Underlying service.
+         */
+        private final GroupingService groupingService;
+
+        /**
+         * Construct.
+         *
+         * @param groupingService Underlying service
+         */
+        public GroupingIdLookupParamConverter(GroupingService groupingService) {
+            this.groupingService = groupingService;
+        }
+
+        @Override
+        public Grouping fromString(String value) {
+            return this.groupingService.getGrouping(value);
+        }
+
+        @Override
+        public String toString(Grouping value) {
+            return this.groupingService.getGroupingId(value);
+        }
+
+    }
+
 
 
 }

@@ -81,6 +81,18 @@
             };
 
             /**
+             * Retrieve available groupings.
+             *
+             * @param success Function to invoke with the retrieved DTO
+             */
+            var available_groupings = function(success) {
+                $.ajax({
+                    url : "rest/groupings",
+                    success : success
+                });
+            };
+
+            /**
              * Retrieve a hierarchy.
              * @param clusterid Cluster ID
              * @param success Function to invoke with the retrievced DTO
@@ -92,6 +104,16 @@
                 });
 
             }
+
+            var grouping_details = function(groupid, success) {
+                $.ajax({
+                    url : "rest/groupings/" + groupid + "/all",
+                    success : success
+                });
+
+
+            };
+
 
             var launch_lance_williams = function(params) {
                 if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
@@ -107,6 +129,27 @@
 
                 $.ajax({
                     url : 'rest/launch-clustering/invoke-lance-williams-on-molfile',
+                    type : 'POST',
+                    data : requestData,
+                    success : function(result, status, xhr) {
+                        params.success(xhr.responseJSON);
+                    }
+                });
+            };
+
+            var launch_random_selection = function(params) {
+                if (!params.molfile) { throw new Error('Parameter molfile not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
+                if (!params.count) { throw new Error('Parameter count not specified.'); }
+
+                var requestData = {
+                    molfile : params.molfile,
+                    count : params.count
+
+                };
+
+                $.ajax({
+                    url : 'rest/launch-grouping/invoke-random-selection-on-molfile',
                     type : 'POST',
                     data : requestData,
                     success : function(result, status, xhr) {
@@ -140,6 +183,20 @@
                     }
                 });
             };
+
+            var delete_grouping = function(params) {
+                if (!params.grouping) { throw new Error('Parameter grouping not specified.'); }
+                if (!params.success) { throw new Error('Parameter success not specified.'); }
+
+                $.ajax({
+                    url : 'rest/groupings/' + params.grouping,
+                    type : 'DELETE',
+                    success : function(result, status, xhr) {
+                        params.success();
+                    }
+                });
+            };
+
 
             /**
              * Show JSON display dialog.
@@ -175,7 +232,6 @@
 
                 // Fill molecules table
                 available_molfiles(function(m) {
-                    console.log(m);
 
                     var mtable = d3.select('#available-molfiles');
                     var thead = mtable.append('thead').append('tr');
@@ -193,7 +249,9 @@
                     trows.append('td').text(function(d) { return d.originalFileName; });
                     trows.append('td').text(function(d) { return d.originalFileSize; });
                     trows.append('td').text(function(d) { return d.url; });
-                    trows.append('td').append('button')
+
+                    var actionsCell = trows.append('td');
+                    actionsCell.append('button')
                             .classed('btn btn-default btn-xs', true)
                             .text("Cluster!")
                             .on('click', function(d) {
@@ -202,6 +260,17 @@
                                     success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
                                 });
                             });
+                    actionsCell.append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("RandomSel!")
+                            .on('click', function(d) {
+                                launch_random_selection({
+                                    molfile : d.id,
+                                    count : 20,
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
+                                });
+                            });
+
                     trows.append('td').append('button')
                             .classed('btn btn-default btn-xs', true)
                             .text("Delete!")
@@ -214,7 +283,6 @@
 
                 });
                 available_clusterings(function(c) {
-                    console.log(c);
 
                     var ctable = d3.select('#available-clusterings');
                     var thead = ctable.append('thead').append('tr');
@@ -272,6 +340,66 @@
                             });
 
                 });
+
+                available_groupings(function(g) {
+
+                    var gtable = d3.select('#available-groupings');
+                    var thead = gtable.append('thead').append('tr');
+                    thead.append('th').text('ID');
+                    thead.append('th').text('URL');
+                    thead.append('th').text('Algorithm');
+                    thead.append('th').text('Time (ms)');
+                    thead.append('th').text('View');
+                    thead.append('th').text('Other');
+
+                    var trows = gtable.append('tbody').selectAll('tr').data(g.groupings).enter().append('tr');
+                    trows.append('td').text(function(d) { return d.id; });
+                    trows.append('td').text(function(d) { return d.url; });
+                    trows.append('td').text(function(d) { return d.algorithmDescription; });
+                    trows.append('td').text(function(d) { return d.elapsedTime; });
+                    var td_view = trows.append('td');
+                    td_view.append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Info")
+                            .on('click', function(d) {
+                                show_json_dialog({
+                                    title : 'Grouping info',
+                                    info : 'Metadata (info) on clustering.',
+                                    json : d
+                                })
+                            });
+                    td_view.append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Details JSON")
+                            .on('click', function(d) {
+                                // d is the datum bound by d3.select.data
+                                // need to retrieve hierarchy then we can show the dialog
+                                grouping_details(
+                                    d.id,
+                                    function (json) {
+                                        show_json_dialog({
+                                            title : 'Grouping details',
+                                            info : 'Grouping details of ' + d.id,
+                                            json : json
+                                        })
+                                    }
+                                );
+
+                            });
+
+                    trows.append('td').append('button')
+                            .classed('btn btn-default btn-xs', true)
+                            .text("Delete!")
+                            .on('click', function(d) {
+                                // d is the datum bound by d3.select.data
+                                delete_grouping({
+                                    grouping : d.id,
+                                    success : function (f) { alert('Success. Press OK to reload'); window.location.reload(false); }
+                                });
+                            });
+
+                });
+
             });
 
         </script>
@@ -298,7 +426,11 @@
             </table>
 
             <table id="available-clusterings" class="table">
-                <caption>Available clusterings</caption>
+                <caption>Available (hierarchical) clusterings</caption>
+            </table>
+
+            <table id="available-groupings" class="table">
+                <caption>Available groupings (single level / non-hierarchical clusterings)</caption>
             </table>
         </div>
 

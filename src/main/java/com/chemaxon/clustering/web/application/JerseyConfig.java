@@ -18,7 +18,9 @@
 package com.chemaxon.clustering.web.application;
 
 import com.chemaxon.clustering.web.resources.ClusteringResource;
+import com.chemaxon.clustering.web.resources.GroupingResource;
 import com.chemaxon.clustering.web.resources.LaunchClusteringResource;
+import com.chemaxon.clustering.web.resources.LaunchGroupingResource;
 import com.chemaxon.clustering.web.resources.MolfilesResource;
 import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -42,6 +44,8 @@ public final class JerseyConfig extends ResourceConfig {
         register(MolfilesResource.class);
         register(ClusteringResource.class);
         register(LaunchClusteringResource.class);
+        register(GroupingResource.class);
+        register(LaunchGroupingResource.class);
         register(ParamConverterProviderImpl.class);
 
         // See http://stackoverflow.com/questions/35644365/multipart-api-doesnt-work-in-jersey-with-springboot

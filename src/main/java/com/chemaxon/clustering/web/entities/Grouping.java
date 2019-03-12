@@ -16,25 +16,20 @@
  */
 package com.chemaxon.clustering.web.entities;
 
-import com.chemaxon.clustering.common.IDBasedAssigner;
-import com.chemaxon.clustering.common.IDBasedHierarchicClustering;
+import com.chemaxon.clustering.common.IDBasedSingleLevelClustering;
 
 /**
- * Represents a hierarchic clustering.
+ * Represents a non hierarchic (single level) clustering (partitioning) of input structures.
  *
  * @author Gabor Imre
  */
-public class Clustering {
+public class Grouping {
 
     /**
-     * Represented clustering.
+     * Represented grouping.
      */
-    private final IDBasedHierarchicClustering clustering;
+    private final IDBasedSingleLevelClustering grouping;
 
-    /**
-     * Represented level assigner.
-     */
-    private final IDBasedAssigner assigner;
 
     /**
      * Elapsed time in milliseconds.
@@ -52,24 +47,19 @@ public class Clustering {
     /**
      * Create.
      *
-     * @param clustering Clustering to represent
+     * @param grouping Clustering to represent
      * @param elapsedTime Elapsed time to store
      * @param algorithmDescription Description of the c
      */
-    public Clustering(IDBasedHierarchicClustering clustering, long elapsedTime, String algorithmDescription) {
-        this.clustering = clustering;
+    public Grouping(IDBasedSingleLevelClustering grouping, long elapsedTime, String algorithmDescription) {
+        this.grouping = grouping;
         this.elapsedTime = elapsedTime;
-        this.assigner = clustering.getPreferredAssigner();
         this.algorithmDescription = algorithmDescription;
     }
 
 
-    public IDBasedAssigner getAssigner() {
-        return this.assigner;
-    }
-
-    public IDBasedHierarchicClustering getClustering() {
-        return this.clustering;
+    public IDBasedSingleLevelClustering getGrouping() {
+        return this.grouping;
     }
 
     public long getElapsedTime() {
@@ -79,8 +69,6 @@ public class Clustering {
     public String getAlgorithmDescription() {
         return algorithmDescription;
     }
-
-
 
 
 }
