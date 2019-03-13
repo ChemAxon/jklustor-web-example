@@ -108,4 +108,47 @@ public class LaunchGroupingResource {
 
     }
 
+
+    /**
+     * Invoke sphere exclusion centroid filtering.
+     *
+     * Molecules referenced by single group are filtered. The resulting simple group contains only those references which
+     * are separated by the specified radius.
+     *
+     * @param molfileId Associated molfile
+     * @param groupingId Source grouping where members refer to the associated molfile
+     * @param groupIndex Group index from the source grouping
+     * @param radius A dissimilarity radius
+     * @return The filtered grouping
+     */
+    @POST
+    @Path("invoke-sphex-centroid-filtering")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public GroupingInfo invokeSphexCentroidFiltering(
+        @FormParam("molfile") String molfileId,
+        @FormParam("grouping") String groupingId,
+        @FormParam("groupindex") @DefaultValue("0") int groupIndex,
+        @FormParam("radius") @DefaultValue("0.1") double radius
+    ) {
+        if (molfileId == null) {
+            throw new IllegalArgumentException("No molfile specified");
+        }
+        if (groupingId == null) {
+            throw new IllegalArgumentException("No grouping specified");
+        }
+
+        final Molfile molfile = this.molfilesService.getMolfile(molfileId);
+        final Grouping srcgrp = this.groupingService.getGrouping(groupingId);
+
+        final Grouping grp = this.groupingService.invokeSphexCentroidFilter(
+            srcgrp,
+            molfile,
+            groupIndex,
+            radius,
+            groupingId + ":" + groupIndex + "-filt-r-" + radius
+        );
+
+        return this.groupingResource.groupingInfo(grp);
+    }
 }

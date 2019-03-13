@@ -17,6 +17,9 @@
 package com.chemaxon.clustering.web.entities;
 
 import com.chemaxon.clustering.common.IDBasedSingleLevelClustering;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Represents a non hierarchic (single level) clustering (partitioning) of input structures.
@@ -45,6 +48,11 @@ public class Grouping {
     private final String algorithmDescription;
 
     /**
+     * Optional messages.
+     */
+    private final List<String> messages;
+
+    /**
      * Create.
      *
      * @param grouping Clustering to represent
@@ -55,6 +63,7 @@ public class Grouping {
         this.grouping = grouping;
         this.elapsedTime = elapsedTime;
         this.algorithmDescription = algorithmDescription;
+        this.messages = new ArrayList<>();
     }
 
 
@@ -67,8 +76,15 @@ public class Grouping {
     }
 
     public String getAlgorithmDescription() {
-        return algorithmDescription;
+        return this.algorithmDescription;
     }
 
+    public List<String> getMessages() {
+        return this.messages;
+    }
+
+    public void addMessage(String ... messageLines) {
+        this.messages.addAll(Arrays.asList(messageLines));
+    }
 
 }

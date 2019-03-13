@@ -16,12 +16,28 @@
  */
 package com.chemaxon.clustering.web.services;
 
+import chemaxon.struc.Molecule;
 import com.chemaxon.clustering.common.IDBasedClusterBuilder;
 import com.chemaxon.clustering.web.dao.GroupingDao;
 import com.chemaxon.clustering.web.entities.Grouping;
 import com.chemaxon.clustering.web.entities.Molfile;
+import com.chemaxon.descriptors.common.BinaryVectorDescriptor;
+import com.chemaxon.descriptors.common.unguarded.UnguardedContext;
+import com.chemaxon.descriptors.common.unguarded.UnguardedDissimilarityCalculator;
+import com.chemaxon.descriptors.common.unguarded.UnguardedExtractor;
+import com.chemaxon.descriptors.fingerprints.cfp.Cfp;
+import com.chemaxon.descriptors.fingerprints.cfp.CfpGenerator;
+import com.chemaxon.descriptors.fingerprints.cfp.CfpParameters;
+import com.chemaxon.descriptors.metrics.BinaryMetrics;
+import com.chemaxon.overlap.io.StandardizerWrapper;
+import com.chemaxon.overlap.io.StandardizerWrappers;
+import com.google.common.base.Stopwatch;
+import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,12 +124,121 @@ public class GroupingService {
             timeStop - timeStart,
             "Random clustering into " + clusterCount + " clusters from " + molfile.size()
         );
+        g.addMessage(
+            "Random clustering created.",
+            "  cluster count: "  + clusterCount,
+            "  molecule count: " + n
+        );
 
         this.groupingDao.add(idSuggestion, g);
 
         return g;
 
 
+    }
+
+    public Grouping invokeSphexCentroidFilter(Grouping grouping, Molfile molfile, int groupId, double radius, String idSuggestion) {
+        final Stopwatch totalTime =  Stopwatch.createStarted();
+
+        final CfpGenerator gen = CfpParameters.createNewBuilder()
+            .length(1024)
+            .bitsPerPattern(2)
+            .bondCount(7)
+            .build().getDescriptorGenerator();
+
+        final StandardizerWrapper std = StandardizerWrappers.aromatizeBasic();
+
+        final UnguardedContext<BinaryVectorDescriptor, long []> uc =
+            gen.comparisonContextFactory().forBinaryMetrics(BinaryMetrics.BINARY_TANIMOTO).unguardedContext();
+
+        final UnguardedExtractor<BinaryVectorDescriptor, long []> ue = uc.unguardedExtractor();
+        final UnguardedDissimilarityCalculator<long []> udc = uc.unguardedComparator();
+        final double radiusDenorm = udc.denormalize(radius);
+
+        final List<long[]> fp = new ArrayList<>();
+
+        final List<Integer> clusterMembers = grouping.getGrouping().clusters().get(groupId).members();
+
+
+        final Stopwatch fpgenTime = Stopwatch.createStarted();
+        for (int molIndex : clusterMembers) {
+            final Molecule mol = molfile.getMolecule(molIndex).clone();
+            std.standardize(mol);
+            final Cfp cfp = gen.generateDescriptor(mol);
+            final long [] fpbits = ue.apply(cfp);
+            fp.add(fpbits);
+        }
+        fpgenTime.stop();
+
+        final BitSet clusterMemberIndicesToRemove = new BitSet();
+
+
+        final Stopwatch comparisonTime = Stopwatch.createStarted();
+        for (int i = 0; i < clusterMembers.size(); i++) {
+            if (clusterMemberIndicesToRemove.get(i)) {
+                continue;
+            }
+            final long [] fpi = fp.get(i);
+            for (int j = i + 1; j < clusterMembers.size(); j++) {
+                if (clusterMemberIndicesToRemove.get(j)) {
+                    continue;
+                }
+                final long [] fpj = fp.get(j);
+
+                final double d = udc.dissimilarity(fpi, fpj);
+
+                if (d < radiusDenorm) {
+                    clusterMemberIndicesToRemove.set(j);
+                }
+            }
+        }
+        comparisonTime.stop();
+
+
+        // add the non-removed elements
+        final IDBasedClusterBuilder b = new IDBasedClusterBuilder();
+        final int ci = b.addNewCluster();
+        for (int i = 0; i < clusterMembers.size(); i++) {
+            if (clusterMemberIndicesToRemove.get(i)) {
+                continue;
+            }
+            b.addStructureToCluster(
+                clusterMembers.get(i), // structure ID
+                ci  // cluster ID
+            );
+        }
+        // select an arbitrary cluster representant
+        b.updateRepresentant(
+            clusterMembers.get(0),
+            ci
+        );
+
+        totalTime.stop();
+
+
+
+        final Grouping g = new Grouping(
+            b.build(),
+            totalTime.elapsed(TimeUnit.MILLISECONDS),
+            "Sphere exclusion centroid filtering with radius " + radius
+        );
+
+        g.addMessage(
+            "Sphere exclusion centroid filtering",
+            "  Radius:              " + radius,
+            "  Denoramlized radius: " + radiusDenorm,
+            "  Input size:          " + clusterMembers.size(),
+            "  Removed count:       " + clusterMemberIndicesToRemove.cardinality(),
+            "  Kept count:          " + g.getGrouping().clusters().get(0).memberCount(),
+            "  FP time:             " + fpgenTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  Comparison time:     " + comparisonTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  Total time:          " + totalTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  ID suggestion:       " + idSuggestion
+        );
+
+        this.groupingDao.add(idSuggestion, g);
+
+        return g;
     }
 
 
@@ -183,6 +308,12 @@ public class GroupingService {
             b.build(),
             timeStop - timeStart,
             "Random selection of " + selectedCount + " elements from " + molfile.size()
+        );
+
+        g.addMessage(
+            "Random selection created.",
+            "  Selected count:  " + selectedCount,
+            "  Molecules count: " + molfile.size()
         );
 
         this.groupingDao.add(idSuggestion, g);

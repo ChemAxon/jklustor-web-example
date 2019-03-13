@@ -77,7 +77,8 @@ public class GroupingResource {
         ret.elapsedTime = grouping.getElapsedTime();
         ret.id = this.groupingService.getGroupingId(grouping);
         ret.url = "/rest/groupings/" + ret.id;
-
+        ret.messages = grouping.getMessages();
+        
         return ret;
     }
 

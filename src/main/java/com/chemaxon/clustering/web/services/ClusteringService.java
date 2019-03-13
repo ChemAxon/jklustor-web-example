@@ -66,8 +66,8 @@ public class ClusteringService {
         // Use cfp7-1
         final CfpGenerator gen = CfpParameters.createNewBuilder()
                 .length(1024)
-                .bitsPerPattern(1).
-                bondCount(7)
+                .bitsPerPattern(1)
+                .bondCount(7)
                 .build().getDescriptorGenerator();
         // With tanimoto
         final CfpComparator cmp = gen.forBinaryMetrics(BinaryMetrics.BINARY_TANIMOTO);

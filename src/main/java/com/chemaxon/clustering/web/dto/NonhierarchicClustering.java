@@ -76,6 +76,12 @@ public class NonhierarchicClustering {
     public String algorithmDescription;
 
     /**
+     * Optional human readable (verbose) messages printed by the underlying clustering.
+     */
+    @XmlElement(required = false)
+    public List<String> messages;
+
+    /**
      * Fill {@link #roots} and {@link #positionDescription}.
      *
      * @param clustering Clustering to represent
