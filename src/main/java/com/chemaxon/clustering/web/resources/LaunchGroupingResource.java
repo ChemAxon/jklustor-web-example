@@ -54,6 +54,7 @@ public class LaunchGroupingResource {
      *
      * @param molfileId Structures to cluster
      * @param count Max cluster count
+     * @param resnameSuggestion Resource name suggestion for the result
      * @return Grouping info
      */
     @POST
@@ -62,7 +63,8 @@ public class LaunchGroupingResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public GroupingInfo invokRandomClusteringOnMolfile(
             @FormParam("molfile") String molfileId,
-            @FormParam("count") @DefaultValue("10") int count
+            @FormParam("count") @DefaultValue("10") int count,
+            @FormParam("resname") String resnameSuggestion
     ) {
         if (molfileId == null) {
             throw new IllegalArgumentException("No molfile specified");
@@ -73,7 +75,16 @@ public class LaunchGroupingResource {
             throw new IllegalArgumentException("No or invalid count specified: " + count);
         }
 
-        final Grouping grp = this.groupingService.invokeRandomClustering(molfile, count, this.molfilesService.getMolfileId(molfile) + "-rnd-grp-" + count);
+        if (resnameSuggestion == null || resnameSuggestion.isEmpty()) {
+            resnameSuggestion = this.molfilesService.getMolfileId(molfile) + "-rnd-grp-" + count;
+        }
+
+
+        final Grouping grp = this.groupingService.invokeRandomClustering(
+            molfile,
+            count,
+            resnameSuggestion
+        );
         return this.groupingResource.groupingInfo(grp);
 
     }
@@ -84,6 +95,7 @@ public class LaunchGroupingResource {
      *
      * @param molfileId Structures to cluster
      * @param count Max element count to select
+     * @param resnameSuggestion  Resource name suggestion for the result
      * @return Grouping info
      */
     @POST
@@ -92,7 +104,8 @@ public class LaunchGroupingResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public GroupingInfo invokRandomSelectionOnMolfile(
             @FormParam("molfile") String molfileId,
-            @FormParam("count") @DefaultValue("100") int count
+            @FormParam("count") @DefaultValue("100") int count,
+            @FormParam("resname") String resnameSuggestion
     ) {
         if (molfileId == null) {
             throw new IllegalArgumentException("No molfile specified");
@@ -103,7 +116,16 @@ public class LaunchGroupingResource {
             throw new IllegalArgumentException("No or invalid count specified: " + count);
         }
 
-        final Grouping grp = this.groupingService.invokeRandomSelection(molfile, count, this.molfilesService.getMolfileId(molfile) + "-rnd-sel-" + count);
+        if (resnameSuggestion == null || resnameSuggestion.isEmpty()) {
+            resnameSuggestion = this.molfilesService.getMolfileId(molfile) + "-rnd-sel-" + count;
+        }
+
+
+        final Grouping grp = this.groupingService.invokeRandomSelection(
+            molfile,
+            count,
+            resnameSuggestion
+        );
         return this.groupingResource.groupingInfo(grp);
 
     }
@@ -119,6 +141,7 @@ public class LaunchGroupingResource {
      * @param groupingId Source grouping where members refer to the associated molfile
      * @param groupIndex Group index from the source grouping
      * @param radius A dissimilarity radius
+     * @param resnameSuggestion  Resource name suggestion for the result
      * @return The filtered grouping
      */
     @POST
@@ -129,7 +152,8 @@ public class LaunchGroupingResource {
         @FormParam("molfile") String molfileId,
         @FormParam("grouping") String groupingId,
         @FormParam("groupindex") @DefaultValue("0") int groupIndex,
-        @FormParam("radius") @DefaultValue("0.1") double radius
+        @FormParam("radius") @DefaultValue("0.1") double radius,
+        @FormParam("resname") String resnameSuggestion
     ) {
         if (molfileId == null) {
             throw new IllegalArgumentException("No molfile specified");
@@ -141,14 +165,66 @@ public class LaunchGroupingResource {
         final Molfile molfile = this.molfilesService.getMolfile(molfileId);
         final Grouping srcgrp = this.groupingService.getGrouping(groupingId);
 
+        if (resnameSuggestion == null || resnameSuggestion.isEmpty()) {
+            resnameSuggestion = groupingId + ":" + groupIndex + "-filt-r-" + radius;
+        }
+
+
         final Grouping grp = this.groupingService.invokeSphexCentroidFilter(
             srcgrp,
             molfile,
             groupIndex,
             radius,
-            groupingId + ":" + groupIndex + "-filt-r-" + radius
+            resnameSuggestion
         );
 
         return this.groupingResource.groupingInfo(grp);
     }
+
+    /**
+     * Invoke nearest neighbor association.
+     *
+     * Centroids referenced by a single group will be used to assign the molecules in a referenced molfile into
+     * clusters.
+     *
+     * @param molfileId Associated molfile
+     * @param groupingId Source grouping where members refer to the associated molfile; memebers will be used as centroids
+     * @param groupIndex Group index from the source grouping
+     * @param resnameSuggestion  Resource name suggestion for the result
+     * @return The filtered grouping
+     */
+    @POST
+    @Path("invoke-nearest-neighbor-association")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public GroupingInfo invokeNearestNeighborAssociation(
+        @FormParam("molfile") String molfileId,
+        @FormParam("grouping") String groupingId,
+        @FormParam("groupindex") @DefaultValue("0") int groupIndex,
+        @FormParam("resname") String resnameSuggestion
+    ) {
+        if (molfileId == null) {
+            throw new IllegalArgumentException("No molfile specified");
+        }
+        if (groupingId == null) {
+            throw new IllegalArgumentException("No grouping specified");
+        }
+
+        final Molfile molfile = this.molfilesService.getMolfile(molfileId);
+        final Grouping srcgrp = this.groupingService.getGrouping(groupingId);
+
+        if (resnameSuggestion == null || resnameSuggestion.isEmpty()) {
+            resnameSuggestion = molfile + "-nn-by-" + groupingId + ":" + groupIndex;
+        }
+
+        final Grouping grp = this.groupingService.invokeNearestNeighborAssociation(
+            srcgrp,
+            molfile,
+            groupIndex,
+            resnameSuggestion
+        );
+
+        return this.groupingResource.groupingInfo(grp);
+    }
+
 }

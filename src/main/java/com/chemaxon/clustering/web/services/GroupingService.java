@@ -35,8 +35,10 @@ import com.google.common.base.Stopwatch;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,6 +138,109 @@ public class GroupingService {
 
 
     }
+
+    public Grouping invokeNearestNeighborAssociation(Grouping grouping, Molfile molfile, int groupId, String idSuggestion) {
+        final Stopwatch totalTime =  Stopwatch.createStarted();
+
+        final CfpGenerator gen = CfpParameters.createNewBuilder()
+            .length(1024)
+            .bitsPerPattern(2)
+            .bondCount(7)
+            .build().getDescriptorGenerator();
+
+        final StandardizerWrapper std = StandardizerWrappers.aromatizeBasic();
+
+        final UnguardedContext<BinaryVectorDescriptor, long []> uc =
+            gen.comparisonContextFactory().forBinaryMetrics(BinaryMetrics.BINARY_TANIMOTO).unguardedContext();
+
+        final UnguardedExtractor<BinaryVectorDescriptor, long []> ue = uc.unguardedExtractor();
+        final UnguardedDissimilarityCalculator<long []> udc = uc.unguardedComparator();
+
+
+        final List<long[]> fp = new ArrayList<>();
+
+
+        final Stopwatch fpgenTime = Stopwatch.createStarted();
+        for (int molIndex = 0; molIndex < molfile.size(); molIndex++) {
+            final Molecule mol = molfile.getMolecule(molIndex).clone();
+            std.standardize(mol);
+            final Cfp cfp = gen.generateDescriptor(mol);
+            final long [] fpbits = ue.apply(cfp);
+            fp.add(fpbits);
+        }
+        fpgenTime.stop();
+
+
+        final List<Integer> centroids = grouping.getGrouping().clusters().get(groupId).members();
+
+
+        // add clusters for each centroids; add centroids
+        final Set<Integer> centroidIndices = new HashSet<>();
+        final IDBasedClusterBuilder b = new IDBasedClusterBuilder();
+        final int [] clusterIndices = new int [centroids.size()];
+        for (int i = 0; i < clusterIndices.length; i++) {
+            final int centroidIndex = centroids.get(i);
+            centroidIndices.add(centroidIndex);
+            final int clusterIndex = b.addNewCluster();
+            clusterIndices[i] = clusterIndex;
+            b.addStructureToCluster(centroidIndex, clusterIndex);
+            b.updateRepresentant(centroidIndex, clusterIndex);
+        }
+
+        final Stopwatch comparisonTime = Stopwatch.createStarted();
+        // find closest centroids for all remaining molecules
+        for (int molIndex = 0; molIndex < molfile.size(); molIndex++) {
+            if (centroidIndices.contains(molIndex)) {
+                // centroids are already clustered
+                continue;
+            }
+
+            int bestCluster = -1;
+            double bestDissim = Double.MAX_VALUE;
+            final long [] fpmol = fp.get(molIndex);
+
+
+            for (int clusterIndex = 0; clusterIndex < centroids.size(); clusterIndex ++) {
+                final int centroidIndex = centroids.get(clusterIndex);
+                final long [] fpcent = fp.get(centroidIndex);
+
+                final double d = udc.dissimilarity(fpcent, fpmol);
+
+                if (d < bestDissim) {
+                    bestDissim = d;
+                    bestCluster = clusterIndex;
+                }
+            }
+
+            b.addStructureToCluster(molIndex, bestCluster);
+        }
+        comparisonTime.stop();
+
+        totalTime.stop();
+
+
+
+        final Grouping g = new Grouping(
+            b.build(),
+            totalTime.elapsed(TimeUnit.MILLISECONDS),
+            "Nearest neighbor association"
+        );
+
+        g.addMessage(
+            "Nearest neighbor association",
+            "  Molecules:           " + molfile.size(),
+            "  Centroids:           " + centroids.size(),
+            "  FP time:             " + fpgenTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  Comparison time:     " + comparisonTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  Total time:          " + totalTime.elapsed(TimeUnit.MILLISECONDS) + " ms",
+            "  ID suggestion:       " + idSuggestion
+        );
+
+        this.groupingDao.add(idSuggestion, g);
+
+        return g;
+    }
+
 
     public Grouping invokeSphexCentroidFilter(Grouping grouping, Molfile molfile, int groupId, double radius, String idSuggestion) {
         final Stopwatch totalTime =  Stopwatch.createStarted();
