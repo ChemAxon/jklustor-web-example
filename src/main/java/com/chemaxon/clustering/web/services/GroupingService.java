@@ -471,6 +471,12 @@ public class GroupingService {
         this.groupingDao.delete(grouping);
     }
 
+    /**
+     * Delete all groupings.
+     */
+    public void deleteAllGroupings() {
+        this.groupingDao.deleteAll();
+    }
 
 
 }

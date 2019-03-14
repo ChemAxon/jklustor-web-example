@@ -131,4 +131,12 @@ public class ClusteringService {
         this.clusteringDao.delete(clustering);
     }
 
+    /**
+     * Delete all clusterings.
+     */
+    public void deleteAllClusterings() {
+        this.clusteringDao.deleteAll();
+    }
+
+
 }

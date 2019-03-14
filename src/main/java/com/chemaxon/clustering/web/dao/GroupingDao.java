@@ -107,6 +107,13 @@ public class GroupingDao {
         this.storage.inverse().remove(grouping);
     }
 
+    /**
+     * Delete all instances.
+     */
+    public synchronized void deleteAll() {
+        this.storage.clear();
+    }
+
 
     /**
      * Retrieve all stored instances.

@@ -21,6 +21,7 @@ import com.chemaxon.clustering.web.resources.ClusteringResource;
 import com.chemaxon.clustering.web.resources.GroupingResource;
 import com.chemaxon.clustering.web.resources.LaunchClusteringResource;
 import com.chemaxon.clustering.web.resources.LaunchGroupingResource;
+import com.chemaxon.clustering.web.resources.ManageResource;
 import com.chemaxon.clustering.web.resources.MolfilesResource;
 import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -41,6 +42,7 @@ public final class JerseyConfig extends ResourceConfig {
     }
 
     private void registerComponents() {
+        register(ManageResource.class);
         register(MolfilesResource.class);
         register(ClusteringResource.class);
         register(LaunchClusteringResource.class);

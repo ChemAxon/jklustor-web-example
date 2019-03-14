@@ -98,4 +98,11 @@ public class MolfilesService {
         this.molfilesDao.delete(molfile);
     }
 
+    /**
+     * Delete all molfiles.
+     */
+    public void deleteAllMolfiles() {
+        this.molfilesDao.deleteAll();
+    }
+
 }

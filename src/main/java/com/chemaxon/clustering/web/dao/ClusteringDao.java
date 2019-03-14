@@ -106,6 +106,12 @@ public class ClusteringDao {
         this.storage.inverse().remove(clustering);
     }
 
+    /**
+     * Delete all instances.
+     */
+    public synchronized void deleteAll() {
+        this.storage.clear();
+    }
 
     /**
      * Retrieve all stored instances.

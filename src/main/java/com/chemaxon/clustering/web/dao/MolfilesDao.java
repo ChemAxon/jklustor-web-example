@@ -109,6 +109,12 @@ public class MolfilesDao {
         this.storage.inverse().remove(molfile);
     }
 
+    /**
+     * Delete all instances.
+     */
+    public synchronized void deleteAll() {
+        this.storage.clear();
+    }
 
     /**
      * Retrieve all stored instances.
