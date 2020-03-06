@@ -23,7 +23,6 @@ import com.chemaxon.calculations.common.SubProgressObserver;
 import com.chemaxon.calculations.io.CloseableIterator;
 import com.chemaxon.calculations.io.MoleculeIo;
 import com.chemaxon.calculations.io.OrderedInputProcessingException;
-import com.chemaxon.calculations.io.Sink;
 import com.chemaxon.calculations.io.SmilesMemoizingMoleculeIterator;
 import com.chemaxon.calculations.util.CmdlineUtils;
 import com.chemaxon.clustering.common.DissimilarityInput;
@@ -45,8 +44,6 @@ import com.chemaxon.overlap.cli.util.images.Halign;
 import static com.chemaxon.overlap.cli.util.images.Px2d.of;
 import com.chemaxon.overlap.cli.util.images.Valign;
 import com.chemaxon.overlap.io.StandardizerWrappers;
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -54,6 +51,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Diagnostic CLI for some clustering and related API functionality.
@@ -100,7 +99,7 @@ public final class BemisMurckoCli {
      *
      * @param mi Structure sources
      * @param errorHandler Error handler for failed exports. Errors expected during structure conversion, before
-     * printing to the output. In case of an expected error the passed handlers {@link Sink#put(java.lang.Object)}
+     * printing to the output. In case of an expected error the passed handlers {@link Consumer#accept(java.lang.Object)}
      * method will be invoked with an {@link OrderedInputProcessingException}. It is up to the handler to throw a
      * {@link RuntimeException} which aborts the processing or log/administrate/ignore the error.
      * @param exporter Exporter to use
@@ -111,7 +110,7 @@ public final class BemisMurckoCli {
      */
     private static int readwrite(
             Iterator<Molecule> mi,
-            Sink<Exception> errorHandler,
+            Consumer<Exception> errorHandler,
             Function<Molecule, String> exporter,
             PrintStream out,
             SubProgressObserver po) {
@@ -123,7 +122,7 @@ public final class BemisMurckoCli {
                 try {
                     out.println(exporter.apply(m));
                 } catch (IllegalArgumentException e) {
-                    errorHandler.put(new OrderedInputProcessingException(inputIndex, e));
+                    errorHandler.accept(new OrderedInputProcessingException(inputIndex, e));
                 }
                 inputIndex ++;
                 po.worked(1);
@@ -146,12 +145,12 @@ public final class BemisMurckoCli {
      * @return Input count
      */
 
-    private static int bmf(Iterator<Molecule> mi, Sink<Exception> errorHandler, PrintStream out, SubProgressObserver po) {
+    private static int bmf(Iterator<Molecule> mi, Consumer<Exception> errorHandler, PrintStream out, SubProgressObserver po) {
         // Converter to convert read structure to SMILES
         final Function<Molecule, String> toSmiles = MoleculeIo.molExporterToSmilesFunction();
 
         // Framework association
-        final Function<Molecule, Iterator<String>> bmf = new MoleculeFrameworks().bemisMurckoFrameworkAssociation();
+        final Function<Molecule, Iterator<String>> bmf = new MoleculeFrameworks().bemisMurckoFrameworkAssociation()::apply;
         try {
             int inputIndex = 0;
             while (mi.hasNext()) {
@@ -176,7 +175,7 @@ public final class BemisMurckoCli {
                         out.println(s);
                     }
                 } catch (IllegalArgumentException e) {
-                    errorHandler.put(new OrderedInputProcessingException(inputIndex, e));
+                    errorHandler.accept(new OrderedInputProcessingException(inputIndex, e));
                 }
                 po.worked(1);
                 inputIndex ++;
@@ -233,13 +232,13 @@ public final class BemisMurckoCli {
      * Image output.
      *
      * @param tree Results tree to traverse
-     * @param structureSource Source of input structures
+     * @param leafIdToStructure Structure look up for lead ids
      * @param out Target to write to
      * @param po Observer to track progress. Method {@link SubProgressObserver#done()} will be invoked.
      */
     private static void bmtreeimg_out(
             final FrameworkClusteringResults tree,
-            final Function<Integer, Molecule> structureSource,
+            final Function<Integer, Molecule> leafIdToStructure,
             final OutputStream out,
             final SubProgressObserver po) throws IOException {
 
@@ -263,7 +262,7 @@ public final class BemisMurckoCli {
                 .leafImageSize(of(100, 100))
                 .leafMaxCols(10)
                 .leafImage((leafid, renderer, area) -> {
-                    final Molecule leafMolecule = structureSource.apply(leafid);
+                    final Molecule leafMolecule = leafIdToStructure.apply(leafid);
                     drawNoBorderedMolecule.paint(
                             renderer,
                             area,
@@ -300,7 +299,7 @@ public final class BemisMurckoCli {
                     break;
                 }
                 case READWRITECANONIC: {
-                    final int count = readwrite(mi, params.errorHandling.getSuitableErrorHandler(), new MoleculeFrameworks().canonicalSmiles(), out, po);
+                    final int count = readwrite(mi, params.errorHandling.getSuitableErrorHandler(), new MoleculeFrameworks().canonicalSmiles()::apply, out, po);
                     env.whenStat(t -> t.targetCount = count);
                     break;
                 }
@@ -328,7 +327,7 @@ public final class BemisMurckoCli {
 
                     bmtreemol_out(
                             tree.getHierarchy(),
-                            tree.getFrameworkAsSmilesFunction(),
+                            tree.getFrameworkAsSmilesFunction()::apply,
                             sci.getMemoizedFunction(),
                             out,
                             outpo);
@@ -362,10 +361,7 @@ public final class BemisMurckoCli {
 
                     bmtreeimg_out(
                             tree,
-                            Functions.compose(
-                                    MoleculeIo.molImporterFromSourceFunction(),
-                                    sci.getMemoizedFunction()
-                            ),
+                            sci.getMemoizedFunction().andThen(MoleculeIo.molImporterFromSourceFunction()),
                             out,
                             outpo);
                     break;
