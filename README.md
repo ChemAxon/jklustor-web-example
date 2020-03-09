@@ -9,7 +9,7 @@ JKlustor web example
     Please note that the associated workarounds will be removed when the relevant features are available in a regular
     release.
 
-  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (repository.chemaxon.com)
+  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (~~`repository.chemaxon.com`~~)
     used by previous versions is changed. Please
     [ensure](src/doc/cxn-hub-getting-started.md) that you have access to the new repository (hub.chemaxon.com). Contact us
     at [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
