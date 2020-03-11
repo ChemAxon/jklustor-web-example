@@ -14,3 +14,4 @@ output.txt
 /*.png
 **/.vagrant/
 **/license.cxl
+**/ubuntu-bionic-18.04-cloudimg-console.log

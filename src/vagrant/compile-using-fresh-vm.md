@@ -1,9 +1,11 @@
 Compilation using fresh virtual machine
 =======================================
 
-It is recommended to testing the build configuration and dependency resolution logic on a fresh machine
+
+It is recommended to test the build configuration and dependency resolution logic on a fresh machine
 to provide reproducibility. This [Vagrant](https://www.vagrantup.com/) file provides such an isolated
 and reproducible environment.
+
 
 Install Vagrant
 ---------------
@@ -17,8 +19,8 @@ Prepare prerequisuites
  - Copy the vagrant file to an empty directory
  - Copy your ChemAxon license file `license.cxl` in the directory of the vagrant file. To request a free evaluation
    license please contact us at [sales@chemaxon.com](mailto:sales@chemaxon.com).
- - Make sure you have a ChemAxon Pass user and a hub.chemaxon.com API key to be used as credentials. See
-   [Getting started with `hub.chemaxon.com`](../doc/cxn-hub-getting-started.md) for details.
+ - Make sure you have a registered ChemAxon Pass user email address and an associated `hub.chemaxon.com` API key to 
+   be used as credentials. See [Getting started with `hub.chemaxon.com`](../doc/cxn-hub-getting-started.md) for details.
 
 
 Create and launch VM, clone, compile and run project
@@ -42,15 +44,15 @@ Further information
 -------------------
 
  Feel free to check the contents of the included [Vagrantfile](Vagrantfile). The configuration is based on a default
-`ubuntu/trusty64` box with the following modifications:
+`ubuntu/bionic64` box with the following modifications:
 
-  - Port 8090 of the host is forwarede to the port 8090 of the VM. This allows an easy connection with a browser (on
+  - Port 8090 of the host is forwarded to the port 8090 of the VM. This allows an easy connection with a browser (on
     the host) to the running web application inside the VM.
   - VM memory is set to 2048M.
   - JDK is installed on the VM.
   - Memory for `gradle` build is set to 1768M.
-  - ChemAxon license file `license.cxl` is expected to be present and is copied to the appropriate directory
-    `~/.chemaxon`.
+  - ChemAxon license file `license.cxl` is expected to be present next to the `Vagrantfile` and is copied to the 
+    appropriate directory `~/.chemaxon` on the VM.
 
 Whats missing:
 

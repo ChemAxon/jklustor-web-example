@@ -1,6 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# See https://github.com/DSpace/vagrant-dspace/blob/master/Vagrantfile
+if !File.file?("license.cxl")
+  abort("File license.cxl not found, it is required for setting up the VM.")
+end
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -12,7 +17,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -81,14 +86,19 @@ Vagrant.configure("2") do |config|
       sudo echo "LC_ALL=en_US.UTF-8" >> /etc/environment
       sudo echo "LC_CTYPE=en_US.UTF-8" >> /etc/environment
 
-      sudo add-apt-repository -y ppa:webupd8team/java
-      sudo apt-get update
-      sudo apt-get -y upgrade
-      echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections 
-      echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-      sudo apt-get -y install oracle-java8-installer
+      sudo apt install -y openjdk-8-jdk-headless
 
-      sudo apt install oracle-java8-set-default
+      # See https://askubuntu.com/a/723503
+      # sudo sed -i -e '/^assistive_technologies=/s/^/#/' /etc/java-*-openjdk/accessibility.properties
+
+
+      # sudo add-apt-repository -y ppa:webupd8team/java
+      # sudo apt-get update
+      # sudo apt-get -y upgrade
+      # echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections 
+      # echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+      # sudo apt-get -y install oracle-java8-installer
+      # sudo apt install oracle-java8-set-default
 
       # Set gradle memory
       sudo echo "GRADLE_OPTS=-Xmx1768m" >> /etc/environment
@@ -101,7 +111,9 @@ Vagrant.configure("2") do |config|
       echo "Installing ChemAxon license \"license.cxl\""
       mkdir -p ~/.chemaxon
       cp /vagrant/license.cxl ~/.chemaxon
-
+      echo
+      echo "All done. Use \"vagrant ssh\" to log in to the fresh virtual machine."
+      echo
 
   SHELL
 end

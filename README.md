@@ -9,9 +9,10 @@ JKlustor web example
     Please note that the associated workarounds will be removed when the relevant features are available in a regular
     release.
 
-  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) (~~`repository.chemaxon.com`~~)
-    used by previous versions is changed. Please
-    [ensure](src/doc/cxn-hub-getting-started.md) that you have access to the new repository (hub.chemaxon.com). Contact us
+  - ChemAxon [public repository](https://docs.chemaxon.com/display/docs/Public+Repository) 
+    used by previous versions (~~`repository.chemaxon.com`~~) is changed. You can follow 
+    this [getting started guide](src/doc/cxn-hub-getting-started.md) to ensure that you have access to resolve artifacts 
+    from the new repository (`hub.chemaxon.com`). Contact us
     at [disco-support@chemaxon.com](mailto:disco-support@chemaxon.com?subject=Question%20regarding%20github.com/ChemAxon/jklustor-web-example)
     with further questions.
 
@@ -28,6 +29,7 @@ Further docs
 
  - [Notes on Spring Boot application configuration](src/doc/spring-boot-notes.md)
  - [Getting started with `hub.chemaxon.com`](src/doc/cxn-hub-getting-started.md)
+ - [Compilation using fresh virtual machine](src/vagrant/compile-using-fresh-vm.md)
 
 
 Summary
