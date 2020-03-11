@@ -71,7 +71,7 @@ See <https://docs.chemaxon.com/display/docs/Public+Repository> and
     `hub.chemaxon.com`. We expect further major changes in the repository configuration in the near future.**
   - Note that the repository server at `hub.chemaxon.com` **does not** allow interactive logins.
   - **Manual download and usage of JChem distribution is not supported now.**
-  - Make sure that you have the required credentials to access ChemAxon public repository <https://hub.chemaxon.com>
+  - Make sure that you have the required credentials to access ChemAxon public repository `hub.chemaxon.com`
     described above
   - For low memory machines use `export GRADLE_OPTS=-Xmx1768m`
   - Launch `./gradlew -PcxnHubUser=<YOUR_PASS_EMAIL> -PcxnHubPass=<YOUR_HUB_API_KEY> bootRun` to start embedded server.
