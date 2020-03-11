@@ -52,7 +52,7 @@ Getting started
 ---------------
 
 This project depends on ChemAxon proprietary APIs which are not available from open public repositories. To compile
-you need to request access to ChemAxon public repository <https://hub.chemaxon.com> and pass your credentials to the
+you need to request access to ChemAxon public repository `hub.chemaxon.com` and pass your credentials to the
 build script using Gradle properties. Descriptions below use the command line argument (`-P<key>=<value>`) approach.
 Further ways to set project properties are described in <http://mrhaki.blogspot.hu/2010/09/gradle-goodness-different-ways-to-set.html>.
 
@@ -67,8 +67,9 @@ See <https://docs.chemaxon.com/display/docs/Public+Repository> and
 
 ### Using ChemAxon Public repository
 
-  - **Note that repository <https://repository.chemaxon.com> is deprecated, you need new credentials for accessing
-    <https://hub.chemaxon.com>. We expect further major changes in the repository configuration in the near future.**
+  - **Note that old repository ~~`repository.chemaxon.com`~~ is deprecated, you need new credentials for accessing
+    `hub.chemaxon.com`. We expect further major changes in the repository configuration in the near future.**
+  - Note that the repository server at `hub.chemaxon.com` **does not** allow interactive logins.
   - **Manual download and usage of JChem distribution is not supported now.**
   - Make sure that you have the required credentials to access ChemAxon public repository <https://hub.chemaxon.com>
     described above

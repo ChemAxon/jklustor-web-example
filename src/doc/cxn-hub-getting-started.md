@@ -16,6 +16,9 @@ modules. It is designed for integrators and resellers but is available for any
 registered ChemAxon user as well. How to acquire the required credentials in 
 order to use this repository are described below.
 
+Note that the repository server at `hub.chemaxon.com` **does not** allow 
+interactive logins.
+
 
 ## Create your ChemAxon Account
 
